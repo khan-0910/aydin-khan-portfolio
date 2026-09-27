@@ -66,16 +66,11 @@ export default function FootballVisual({ expanded = false }: { expanded?: boolea
             transition={{ delay: 0.2 + i * 0.03, type: "spring", stiffness: 300, damping: 18 }}
             style={{ transformOrigin: `${p.x}px ${p.y}px` }}
           >
-            <motion.circle
-              cx={p.x}
-              cy={p.y}
-              r="7"
-              fill="#5b78ff"
-              fillOpacity="0.9"
-              animate={reduced ? {} : { cy: [p.y, p.y - 3, p.y] }}
-              transition={{ duration: 2.6 + (i % 4), repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
-            />
-            <circle cx={p.x} cy={p.y} r="11" fill="none" stroke="#5b78ff" strokeOpacity="0.35" strokeWidth="1" />
+            {/* bob via transform, not the cy attribute (attribute animation renders undefined) */}
+            <motion.g animate={reduced ? {} : { y: [0, -3, 0] }} transition={{ duration: 2.6 + (i % 4), repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}>
+              <circle cx={p.x} cy={p.y} r="7" fill="#5b78ff" fillOpacity="0.9" />
+              <circle cx={p.x} cy={p.y} r="11" fill="none" stroke="#5b78ff" strokeOpacity="0.35" strokeWidth="1" />
+            </motion.g>
           </motion.g>
         ))}
         {AWAY_XI.map((p, i) => (
@@ -85,17 +80,12 @@ export default function FootballVisual({ expanded = false }: { expanded?: boolea
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ delay: 0.3 + i * 0.03, type: "spring", stiffness: 300, damping: 18 }}
+            style={{ transformOrigin: `${p.x}px ${p.y}px` }}
           >
-            <motion.circle
-              cx={p.x}
-              cy={p.y}
-              r="7"
-              fill="#e4e6d8"
-              fillOpacity="0.75"
-              animate={reduced ? {} : { cy: [p.y, p.y + 3, p.y] }}
-              transition={{ duration: 2.8 + (i % 4), repeat: Infinity, ease: "easeInOut", delay: i * 0.12 }}
-            />
-            <circle cx={p.x} cy={p.y} r="11" fill="none" stroke="#e4e6d8" strokeOpacity="0.3" strokeWidth="1" />
+            <motion.g animate={reduced ? {} : { y: [0, 3, 0] }} transition={{ duration: 2.8 + (i % 4), repeat: Infinity, ease: "easeInOut", delay: i * 0.12 }}>
+              <circle cx={p.x} cy={p.y} r="7" fill="#e4e6d8" fillOpacity="0.75" />
+              <circle cx={p.x} cy={p.y} r="11" fill="none" stroke="#e4e6d8" strokeOpacity="0.3" strokeWidth="1" />
+            </motion.g>
           </motion.g>
         ))}
 
@@ -114,6 +104,8 @@ export default function FootballVisual({ expanded = false }: { expanded?: boolea
         <motion.circle
           r="5"
           fill="url(#fb-ball)"
+          cx="340"
+          cy="320"
           animate={reduced ? {} : { offsetDistance: ["0%", "100%"] }}
           style={{
             offsetPath: "path('M 340 320 Q 400 200 460 320')",
