@@ -2,17 +2,17 @@
 
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { useState } from "react";
 import HeroSystem from "./HeroSystem";
 import Esp32Module from "./Esp32Module";
 import LoadingScreen from "./LoadingScreen";
 import MagneticButton from "@/components/ui/MagneticButton";
-import { useProjectOverlay } from "@/components/system/Provider";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 export default function Hero() {
   const reduced = useReducedMotion();
-  const { booted, setBooted } = useProjectOverlay();
+  const [booted, setBooted] = useState(false);
   const ref = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -130,7 +130,7 @@ export default function Hero() {
       </section>
 
       {/* loader sits ON TOP of the hero — hero is revealed, not swapped in */}
-      <LoadingScreen onDone={setBooted} />
+      <LoadingScreen onDone={() => setBooted(true)} />
     </>
   );
 }

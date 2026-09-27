@@ -2,9 +2,9 @@
 
 import { motion } from "motion/react";
 import SectionHeading from "@/components/ui/SectionHeading";
-import BounceIn from "@/components/ui/BounceIn";
 import TechnicalLabel from "@/components/ui/TechnicalLabel";
-import LanguagePanel from "./LanguagePanel";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 const TRAITS: Array<{ code: string; label: string; note: string }> = [
   { code: "T-01", label: "COMPUTERS", note: "Comfortable in software land: code, tools, systems" },
@@ -27,104 +27,84 @@ const EDUCATION: Array<{ title: string; sub: string; meta: string }> = [
   },
 ];
 
+const LANGUAGES = [
+  { name: "ENGLISH", level: "FLUENT" },
+  { name: "HINDI", level: "FLUENT" },
+  { name: "FRENCH", level: "FUNCTIONAL" },
+  { name: "TAMIL", level: "CONVERSATIONAL" },
+  { name: "KOREAN", level: "LEARNING" },
+];
+
 export default function About() {
   return (
-    <section id="about" className="relative py-28 sm:py-36" aria-label="About Aydin Khan">
+    <section id="about" className="relative py-20 sm:py-24" aria-label="About Aydin Khan">
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
         <SectionHeading index="02" label="OPERATOR PROFILE" title="Curious about how things work." />
 
-        <div className="mx-auto mt-16 max-w-3xl">
-          {/* narrative */}
-          <div>
-            {/* stamped-in chip — the section's parts arrive one after another */}
-            <BounceIn from={0.5} y={44}>
-              <div className="inline-flex items-center gap-3 border border-line-2 bg-panel px-3.5 py-1.5">
-                <span aria-hidden className="h-1.5 w-1.5 animate-blink bg-amber" />
-                <span className="font-mono text-[11px] tracking-[0.35em] text-paper-dim">ABOUT ME</span>
+        <div className="mx-auto mt-10 max-w-3xl">
+          <p className="max-w-xl text-xl leading-relaxed text-paper-dim sm:text-2xl">
+            I like taking ideas <span className="text-paper">apart</span>, understanding how they{" "}
+            <span className="text-paper">work</span>, and building them into something{" "}
+            <span className="text-amber">real</span>.
+          </p>
+
+          <p className="mt-6 max-w-xl leading-relaxed text-paper-dim">
+            A Mechatronics &amp; Automation student at VIT Chennai working across mechanical design,
+            electronics and software. The interest isn't any single discipline, it's the
+            intersections. Where a controller meets a mechanism. Where code moves something
+            physical.
+          </p>
+
+          {/* spec sheet - compact list */}
+          <div className="mt-10 border border-line bg-panel/60">
+            <div className="border-b border-line px-4 py-2">
+              <TechnicalLabel>INSPECTION - PERSONAL SPEC SHEET</TechnicalLabel>
+            </div>
+            <ul className="grid sm:grid-cols-2">
+              {TRAITS.map((t, i) => (
+                <motion.li
+                  key={t.code}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ delay: i * 0.05, duration: 0.4, ease: EASE }}
+                  className={`flex items-baseline gap-3 border-line/60 px-4 py-2.5 ${
+                    i % 2 === 0 ? "sm:border-r" : ""
+                  } ${i < TRAITS.length - (TRAITS.length % 2 === 1 ? 1 : 2) ? "border-b" : "border-b sm:border-b-0"} last:border-b-0 sm:last:border-b-0`}
+                >
+                  <span className="font-mono text-[10px] tracking-[0.2em] text-amber">{t.code}</span>
+                  <span className="w-32 shrink-0 font-mono text-[11px] font-medium tracking-[0.15em] text-paper">
+                    {t.label}
+                  </span>
+                  <span className="text-[12px] leading-snug text-paper-faint">{t.note}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+
+          {/* education - compact */}
+          <div className="mt-6 space-y-3">
+            <TechnicalLabel>EDUCATION RECORD</TechnicalLabel>
+            {EDUCATION.map((e) => (
+              <div
+                key={e.title}
+                className="border border-line bg-panel/50 px-4 py-3 transition-colors duration-300 hover:border-line-2"
+              >
+                <h3 className="font-mono text-[12px] font-medium tracking-[0.15em] text-paper">{e.title}</h3>
+                <p className="mt-0.5 text-[13px] text-paper-dim">{e.sub}</p>
+                <p className="mt-0.5 font-mono text-[10px] tracking-[0.2em] text-paper-faint">{e.meta}</p>
               </div>
-            </BounceIn>
+            ))}
+          </div>
 
-            <BounceIn delay={0.12}>
-              <p className="mt-7 max-w-xl text-xl leading-relaxed text-paper-dim sm:text-2xl">
-                I like taking ideas <span className="text-paper">apart</span>, understanding how they{" "}
-                <span className="text-paper">work</span>, and building them into something{" "}
-                <span className="text-amber">real</span>.
-              </p>
-            </BounceIn>
-
-            <BounceIn delay={0.22}>
-              <p className="mt-8 max-w-xl leading-relaxed text-paper-dim">
-                A Mechatronics &amp; Automation student at VIT Chennai working across mechanical design,
-                electronics and software. The interest isn't any single discipline, it's the
-                intersections. Where a controller meets a mechanism. Where code moves something
-                physical.
-              </p>
-            </BounceIn>
-
-            {/* traits — inspection table */}
-            <BounceIn delay={0.32} y={44} from={0.96}>
-              <div className="mt-12 border border-line bg-panel/60">
-                <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
-                  <TechnicalLabel>INSPECTION - PERSONAL SPEC SHEET</TechnicalLabel>
-                  <span aria-hidden className="h-1.5 w-1.5 bg-amber" />
-                </div>
-                <ul>
-                  {TRAITS.map((t, i) => (
-                    <motion.li
-                      key={t.code}
-                      initial={{ opacity: 0, x: -16 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true, margin: "-40px" }}
-                      transition={{ delay: i * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                      className="group flex flex-col gap-1 border-b border-line/60 px-4 py-3.5 transition-colors last:border-0 hover:bg-panel-2 sm:flex-row sm:items-center sm:gap-6"
-                    >
-                      <span className="font-mono text-[10px] tracking-[0.25em] text-amber">{t.code}</span>
-                      <span className="w-40 font-mono text-[12px] font-medium tracking-[0.2em] text-paper">
-                        {t.label}
-                      </span>
-                      <span className="flex-1 text-[13px] leading-relaxed text-paper-faint transition-colors group-hover:text-paper-dim">
-                        {t.note}
-                      </span>
-                      <span
-                        aria-hidden
-                        className="hidden h-px w-6 bg-line-2 transition-all duration-300 group-hover:w-10 group-hover:bg-amber sm:block"
-                      />
-                    </motion.li>
-                  ))}
-                </ul>
-                <div className="hatch h-3 border-t border-line" aria-hidden />
-              </div>
-            </BounceIn>
-
-            {/* education */}
-            <BounceIn delay={0.12} y={44} from={0.96}>
-              <div className="mt-10 space-y-4">
-                <TechnicalLabel>EDUCATION RECORD</TechnicalLabel>
-                {EDUCATION.map((e) => (
-                  <motion.div
-                    key={e.title}
-                    whileHover={{ x: 6 }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="group border border-line bg-panel/50 p-5 transition-colors duration-300 hover:border-line-2 hover:bg-panel"
-                  >
-                    <div className="flex items-center justify-between gap-4">
-                      <h3 className="font-mono text-[13px] font-medium tracking-[0.15em] text-paper">{e.title}</h3>
-                      <span
-                        aria-hidden
-                        className="h-px w-6 shrink-0 bg-line-2 transition-all duration-300 group-hover:w-10 group-hover:bg-amber"
-                      />
-                    </div>
-                    <p className="mt-1.5 text-sm text-paper-dim">{e.sub}</p>
-                    <p className="mt-1 font-mono text-[10px] tracking-[0.25em] text-paper-faint transition-colors group-hover:text-paper-dim">{e.meta}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </BounceIn>
-
-            {/* language system */}
-            <BounceIn delay={0.22} y={44} from={0.96} className="mt-10">
-              <LanguagePanel />
-            </BounceIn>
+          {/* languages - one compact line per language */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-1.5 border border-dashed border-line-2 px-4 py-3">
+            <TechnicalLabel>LANGUAGES</TechnicalLabel>
+            {LANGUAGES.map((l) => (
+              <span key={l.name} className="font-mono text-[11px] tracking-[0.15em] text-paper-dim">
+                {l.name} <span className="text-paper-faint">- {l.level}</span>
+              </span>
+            ))}
           </div>
         </div>
       </div>

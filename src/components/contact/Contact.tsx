@@ -11,7 +11,7 @@ const CHANNELS = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="theme-dark relative overflow-hidden pt-28 sm:pt-36" aria-label="Contact">
+    <section id="contact" className="theme-dark relative overflow-hidden pt-20 sm:pt-28" aria-label="Contact">
       {/* backdrop grid + sketch */}
       <div aria-hidden className="absolute inset-0">
         <div className="blueprint-bg absolute inset-0 opacity-60" />
@@ -28,7 +28,7 @@ export default function Contact() {
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10">
         <div className="flex items-center gap-3 font-mono text-[11px] tracking-[0.3em] text-paper-faint">
-          <span className="text-amber">08</span>
+          <span className="text-amber">06</span>
           <span aria-hidden className="h-px w-10 bg-line-2" />
           <span>OPEN CHANNEL</span>
         </div>
@@ -53,7 +53,7 @@ export default function Contact() {
           Ideas are only the beginning.
         </motion.p>
 
-        <div className="mt-16 pb-28">
+        <div className="mt-12 pb-20">
           <div>
             {/* channels */}
             <div className="max-w-xl space-y-4">

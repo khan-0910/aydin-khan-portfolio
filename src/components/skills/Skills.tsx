@@ -71,7 +71,7 @@ function DiagnosticBar({
           return (
             <motion.span
               key={i}
-              className="h-3 flex-1"
+              className="h-2 flex-1"
               style={{
                 background: filled
                   ? accent
@@ -90,7 +90,7 @@ function DiagnosticBar({
                       : { boxShadow: "inset 0 0 0 1px rgba(34,50,42,0.75)" }
                     : { scaleY: 1, opacity: 1 }
               }
-              // probe ripple: each cell flinches in sequence, left → right
+              // probe ripple: each cell flinches in sequence, left to right
               transition={
                 probing
                   ? { delay: i * 0.035, duration: 0.4, ease: EASE }
@@ -104,13 +104,6 @@ function DiagnosticBar({
           );
         })}
       </div>
-      {/* tick marks under the bar */}
-      <div className="mt-1 flex justify-between font-mono text-[8px] text-paper-faint">
-        <span>0</span>
-        <span>05</span>
-        <span>10</span>
-        <span>15</span>
-      </div>
     </div>
   );
 }
@@ -120,14 +113,13 @@ function ToolCard({ tool, index }: { tool: Tool; index: number }) {
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ delay: index * 0.08, duration: 0.7, ease: EASE }}
-      whileHover={{ y: -6 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ delay: index * 0.06, duration: 0.5, ease: EASE }}
       onMouseEnter={() => setProbing(true)}
       onMouseLeave={() => setProbing(false)}
-      className="group relative flex flex-col border border-line bg-panel/70 p-6 transition-colors duration-300 hover:border-line-2"
+      className="group relative flex flex-col border border-line bg-panel/70 p-4 transition-colors duration-300 hover:border-line-2"
       data-cursor="INSPECT"
     >
       <div className="flex items-start justify-between">
@@ -137,13 +129,13 @@ function ToolCard({ tool, index }: { tool: Tool; index: number }) {
         </span>
       </div>
 
-      <h3 className="mt-5 font-display text-2xl font-bold tracking-tight text-paper">
+      <h3 className="mt-3 font-display text-xl font-bold tracking-tight text-paper">
         {tool.name}
       </h3>
 
       <DiagnosticBar segments={tool.segments} index={index} probing={probing} />
 
-      <div className="mt-5 border-t border-line pt-4">
+      <div className="mt-3 border-t border-line pt-2.5">
         <div className="flex items-baseline justify-between">
           <span className="font-mono text-[11px] tracking-[0.2em] text-amber">{tool.level}</span>
           <span
@@ -153,28 +145,34 @@ function ToolCard({ tool, index }: { tool: Tool; index: number }) {
             {tool.segments}/{TOTAL} SEG
           </span>
         </div>
-        <p className="mt-1.5 text-[11px] leading-relaxed text-paper-faint">{tool.levelNote}</p>
+        <p className="mt-1 text-[11px] leading-relaxed text-paper-faint">{tool.levelNote}</p>
       </div>
-
-      {/* hover: the bench light comes on */}
-      <span
-        aria-hidden
-        className="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-amber transition-transform duration-500 ease-out group-hover:scale-x-100"
-      />
     </motion.article>
   );
 }
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative pb-20 pt-28 sm:pb-24 sm:pt-36" aria-label="Skills and tools">
+    <section id="skills" className="relative py-20 sm:py-24" aria-label="Skills and tools">
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
-        <SectionHeading index="04" label="THE TOOLBOX" title="Tools on the bench." />
+        <SectionHeading index="03" label="THE TOOLBOX" title="Tools on the bench." />
 
-        <div className="mt-16 grid gap-8 md:grid-cols-3 md:gap-10">
+        <div className="mt-10 grid gap-5 md:grid-cols-3 md:gap-6">
           {TOOLS.map((tool, i) => (
             <ToolCard key={tool.name} tool={tool} index={i} />
-          ))}
+          ))
+          }
+        </div>
+
+        {/* currently learning - compact supporting line, not a section */}
+        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border border-dashed border-line-2 bg-graphite/60 px-4 py-3">
+          <span className="flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] text-amber">
+            <span aria-hidden className="h-1.5 w-1.5 animate-blink bg-amber" />
+            CURRENTLY LEARNING
+          </span>
+          <span className="font-mono text-[11px] tracking-[0.15em] text-paper-dim">
+            JavaScript &middot; Unity / AR Foundation &middot; Korean
+          </span>
         </div>
       </div>
     </section>
