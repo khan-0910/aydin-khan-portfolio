@@ -230,40 +230,6 @@ body {
   animation: sys-pulse 2.4s ease-in-out infinite;
 }
 
-/* range slider — technical diagnostic style */
-input[type="range"].range-tech {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    var(--color-amber) 0%,
-    var(--color-amber) var(--fill, 0%),
-    var(--color-line-2) var(--fill, 0%),
-    var(--color-line-2) 100%
-  );
-  border-radius: 0;
-}
-input[type="range"].range-tech::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 12px;
-  height: 14px;
-  background: var(--color-paper);
-  border: 1px solid var(--color-amber);
-  border-radius: 1px;
-  cursor: pointer;
-  box-shadow: 0 0 0 1px var(--color-navy);
-}
-input[type="range"].range-tech::-moz-range-thumb {
-  width: 12px;
-  height: 14px;
-  background: var(--paper, var(--color-paper));
-  border: 1px solid var(--color-amber);
-  border-radius: 1px;
-  cursor: pointer;
-}
-
 /* ============================================================
    THEME SCOPES
    ============================================================ */
@@ -362,6 +328,45 @@ input[type="range"].range-tech::-moz-range-thumb {
 .doodle-ping { transform-box: fill-box; transform-origin: center; animation: ping-out 1.6s ease-out infinite; }
 .doodle-ping-late { animation-delay: 0.8s; }
 
+/* project doodle motion */
+@keyframes med-lid {
+  0%, 30%, 100% { transform: rotate(0deg); }
+  45%, 85% { transform: rotate(-24deg); }
+}
+@keyframes bubble-pop {
+  0%, 35% { transform: scale(0); opacity: 0; }
+  45%, 85% { transform: scale(1); opacity: 1; }
+  95%, 100% { transform: scale(0.6); opacity: 0; }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes bar-grow {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+@keyframes scan-y {
+  from { transform: translateY(0); }
+  to { transform: translateY(244px); }
+}
+@keyframes float-up {
+  0%, 55% { transform: translateY(6px); opacity: 0; }
+  65% { opacity: 1; }
+  100% { transform: translateY(-18px); opacity: 0; }
+}
+@keyframes star-glow {
+  0%, 100% { opacity: 0.25; transform: scale(0.95); }
+  50% { opacity: 0.5; transform: scale(1.08); }
+}
+.med-lid { animation: med-lid 4s ease-in-out infinite; }
+.bubble-pop { animation: bubble-pop 4s ease-out infinite; }
+.doodle-float { animation: bob 3s ease-in-out infinite; }
+.bar-grow { transform-box: fill-box; transform-origin: bottom; animation: bar-grow 2.6s ease-in-out infinite; }
+.scan-y { animation: scan-y 2.5s linear infinite alternate; }
+.float-up { animation: float-up 2.6s ease-out infinite; }
+.star-glow { transform-box: fill-box; transform-origin: center; filter: blur(10px); animation: star-glow 3s ease-in-out infinite; }
+
 .theme-pale .hatch {
   background-image: repeating-linear-gradient(
     -45deg,
@@ -427,7 +432,14 @@ input[type="range"].range-tech::-moz-range-thumb {
   .doodle-servo,
   .doodle-led,
   .doodle-glow,
-  .doodle-ping {
+  .doodle-ping,
+  .med-lid,
+  .bubble-pop,
+  .doodle-float,
+  .bar-grow,
+  .scan-y,
+  .float-up,
+  .star-glow {
     animation: none !important;
   }
   .doodle-motion {

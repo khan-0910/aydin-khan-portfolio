@@ -1,221 +1,81 @@
-"use client";
+import { Arrow, C, Frame, Hand, INK, ink } from "./doodle";
 
-import { motion, useReducedMotion } from "motion/react";
-
-/**
- * AR ARDUINO INTERACTIVE TUTOR — STARTING SOON / IN DEVELOPMENT.
- * A skeletal UNO that sequentially illuminates pins, spawns component
- * footprints, flows signals, then activates an AR tracking grid.
- * SEE → INTERACT → UNDERSTAND → BUILD
- */
-
-const EASE = [0.16, 1, 0.3, 1] as const;
-
-// digital header pins along the top edge of the UNO
-const TOP_PINS = Array.from({ length: 10 }, (_, i) => 150 + i * 28);
-// power/analog header along the bottom
-const BOT_PINS = Array.from({ length: 8 }, (_, i) => 172 + i * 28);
-
-const COMPONENTS = [
-  { id: "led", label: "LED + R", x: 250, y: 120, color: "#ff5d8f", trace: "M 360 254 L 250 254 L 250 136" },
-  { id: "button", label: "BUTTON + POT", x: 520, y: 130, color: "#9b85ff", trace: "M 450 254 L 520 254 L 520 146" },
-  { id: "hc04", label: "HC-SR04", x: 250, y: 412, color: "#5fe0c0", trace: "M 360 260 L 250 260 L 250 396" },
-  { id: "dht", label: "DHT11", x: 430, y: 412, color: "#ff9a6b", trace: "M 440 268 L 440 396" },
-  { id: "servo", label: "SG90 SERVO", x: 590, y: 412, color: "#fbf3e8", trace: "M 450 260 L 590 260 L 590 396" },
+const PARTS = [
+  { label: "LED", fill: C.pink },
+  { label: "button", fill: C.peach },
+  { label: "HC-SR04", fill: C.mint },
+  { label: "DHT11", fill: C.butter },
+  { label: "SG90", fill: C.lilac },
+];
+const TAGS = [
+  { text: "D13 → LED", x: 404, y: 120 },
+  { text: "5V", x: 470, y: 238 },
+  { text: "GND", x: 404, y: 238 },
 ];
 
-export default function ArduinoVisual({ expanded = false }: { expanded?: boolean }) {
-  const reduced = useReducedMotion();
-
+export default function ArduinoVisual() {
   return (
-    <div aria-label="AR Arduino interactive tutor: in development">
-      <svg viewBox="0 0 800 520" className="h-auto w-full" role="img" aria-label="Arduino UNO with AR overlay sequence">
-        {/* ---------- AR grid (activates after the sequence) ---------- */}
-        <motion.g
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 2.2, duration: 0.8 }}
-        >
-          {Array.from({ length: 9 }).map((_, i) => (
-            <motion.line
-              key={`v${i}`}
-              x1={90 + i * 40}
-              y1="30"
-              x2={60 + i * 40}
-              y2="500"
-              stroke="#5fe0c0"
-              strokeOpacity="0.12"
-              strokeWidth="1"
-              initial={{ pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 2.3 + i * 0.03, duration: 0.5 }}
-            />
-          ))}
-          {Array.from({ length: 6 }).map((_, i) => (
-            <line key={`h${i}`} x1="60" y1={70 + i * 80} x2="740" y2={70 + i * 80} stroke="#5fe0c0" strokeOpacity="0.1" strokeWidth="1" />
-          ))}
-          {/* AR corner brackets */}
-          {[
-            "M 70 60 V 40 H 100",
-            "M 730 60 V 40 H 700",
-            "M 70 470 V 490 H 100",
-            "M 730 470 V 490 H 700",
-          ].map((d, i) => (
-            <path key={i} d={d} fill="none" stroke="#5fe0c0" strokeOpacity="0.6" strokeWidth="1.5" />
-          ))}
-          <motion.text
-            x="108"
-            y="52"
-            textAnchor="start"
-            fontSize="9"
-            letterSpacing="2"
-            fill="#5fe0c0"
-            fillOpacity="0.9"
-            fontFamily="var(--font-jetbrains-mono), monospace"
-          >
-            AR TRACKING GRID / SLAM POSE LOCK
-          </motion.text>
-        </motion.g>
+    <Frame
+      label="Doodle of the AR Arduino tutor: a phone scanning an Arduino UNO and popping up pin labels, with the component stickers it will teach"
+      caption="AR tutor: point your phone at the UNO, see what each pin does"
+    >
+      {/* Arduino UNO */}
+      <rect x="40" y="110" width="250" height="160" rx="14" fill={C.sky} {...ink} />
+      <rect x="26" y="140" width="34" height="42" rx="4" fill={C.cream} {...ink} />
+      <rect x="26" y="210" width="30" height="34" rx="4" fill={INK} />
+      <rect x="90" y="118" width="180" height="16" rx="3" fill={INK} />
+      {Array.from({ length: 12 }).map((_, i) => (
+        <rect
+          key={i}
+          x={95 + i * 14.5}
+          y="122"
+          width="8"
+          height="8"
+          rx="1.5"
+          fill={C.butter}
+          className={i % 4 === 1 ? "doodle-led" : undefined}
+          style={i % 4 === 1 ? { animationDelay: `${i * 0.15}s` } : undefined}
+        />
+      ))}
+      <rect x="140" y="205" width="120" height="36" rx="4" fill={INK} />
+      <text x="200" y="228" textAnchor="middle" fontSize="12" fontWeight={700} fill={C.cream} fontFamily="ui-monospace, monospace">
+        ATmega328P
+      </text>
+      <Hand x={70} y={210} color={INK} size={30}>UNO</Hand>
 
-        {/* ---------- UNO board (skeletal wireframe) ---------- */}
-        <g transform="translate(160,150)">
-          <motion.rect
-            x="0"
-            y="0"
-            width="480"
-            height="230"
-            rx="8"
-            fill="#2a1d40"
-            fillOpacity="0.4"
-            stroke="#fbf3e8"
-            strokeOpacity="0.5"
-            strokeWidth="1.5"
-            strokeDasharray="6 4"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, ease: EASE }}
-          />
-          {/* ATmega328P chip */}
-          <rect x="200" y="90" width="90" height="28" fill="none" stroke="#fbf3e8" strokeOpacity="0.6" strokeWidth="1" />
-          <text x="245" y="107" textAnchor="middle" fontSize="8" fill="#fbf3e8" fillOpacity="0.7" fontFamily="var(--font-jetbrains-mono), monospace">
-            ATMEGA328P
+      {/* phone scanning the board */}
+      <Arrow d="M378 190 C 350 190, 320 190, 296 190" dashed />
+      <rect x="380" y="24" width="180" height="300" rx="26" fill={C.lilac} {...ink} />
+      <rect x="394" y="50" width="152" height="250" rx="12" fill="#2a1d40" stroke={INK} strokeWidth={2.5} />
+      <rect x="438" y="34" width="64" height="8" rx="4" fill={INK} />
+      <rect x="420" y="150" width="100" height="64" rx="8" fill={C.sky} {...ink} strokeWidth={2.5} />
+      <rect x="436" y="156" width="70" height="8" rx="2" fill={INK} />
+      {TAGS.map((t, i) => (
+        <g key={t.text} className="bubble-pop" style={{ transformOrigin: `${t.x}px ${t.y}px`, transformBox: "view-box", animationDelay: `${i * 0.5}s` }}>
+          <rect x={t.x} y={t.y - 18} width={t.text.length * 9 + 16} height="26" rx="8" fill={C.hot} {...ink} strokeWidth={2} />
+          <text x={t.x + 8} y={t.y} className="font-hand" fontSize="18" fontWeight={700} fill={C.cream}>
+            {t.text}
           </text>
-          {/* USB region */}
-          <rect x="0" y="40" width="44" height="30" fill="none" stroke="#fbf3e8" strokeOpacity="0.4" strokeWidth="1" />
-          {/* power jack */}
-          <rect x="0" y="160" width="36" height="40" fill="none" stroke="#fbf3e8" strokeOpacity="0.4" strokeWidth="1" />
-          {/* headers */}
-          {TOP_PINS.map((x) => (
-            <rect key={x} x={x - 160} y="-10" width="6" height="10" fill="#ffd36e" fillOpacity="0.75" />
-          ))}
-          {BOT_PINS.map((x) => (
-            <rect key={x} x={x - 160} y="230" width="6" height="10" fill="#ffd36e" fillOpacity="0.75" />
-          ))}
-
-          {/* ---------- pin illumination sequence ---------- */}
-          {TOP_PINS.map((x, i) => (
-            <motion.circle
-              key={`tp${i}`}
-              cx={x - 160}
-              cy="-14"
-              r="4"
-              fill="none"
-              stroke="#ff5d8f"
-              strokeWidth="1.2"
-              initial={{ opacity: 0, scale: 0.4 }}
-              whileInView={{ opacity: [0, 1, 0.25], scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.9 + i * 0.07, duration: 0.5 }}
-              style={{ transformOrigin: `${x - 160}px -14px` }}
-            />
-          ))}
         </g>
+      ))}
+      <rect x="394" y="50" width="152" height="4" fill={C.mint} className="scan-y" />
+      <Hand x={470} y={350} anchor="middle" color={C.butter} rotate={-3}>AR labels pop up</Hand>
 
-        {/* ---------- components appear + signal flows ---------- */}
-        {COMPONENTS.map((c, i) => (
-          <motion.g
-            key={c.id}
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 1.4 + i * 0.18, duration: 0.5, ease: EASE }}
-          >
-            <rect x={c.x - 42} y={c.y - 16} width="84" height="32" fill="#2a1d40" fillOpacity="0.55" stroke={c.color} strokeWidth="1.2" />
-            <text x={c.x} y={c.y + 3} textAnchor="middle" fontSize="8.5" letterSpacing="1" fill={c.color} fontFamily="var(--font-jetbrains-mono), monospace">
-              {c.label}
-            </text>
-            {/* signal trace — routed from the chip edge, PCB-style */}
-            <motion.path
-              d={c.trace}
-              fill="none"
-              stroke={c.color}
-              strokeOpacity="0.5"
-              strokeWidth="1"
-              strokeDasharray="3 4"
-              className="animate-dash-flow"
-              initial={{ pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 1.8 + i * 0.18, duration: 0.5 }}
-            />
-          </motion.g>
-        ))}
-
-        {/* ---------- SEE → INTERACT → UNDERSTAND → BUILD ---------- */}
-        <g transform="translate(0,506)" fontFamily="var(--font-jetbrains-mono), monospace">
-          {["SEE", "INTERACT", "UNDERSTAND", "BUILD"].map((s, i) => (
-            <motion.text
-              key={s}
-              x={140 + i * 175}
-              y="0"
-              textAnchor="middle"
-              fontSize="10"
-              letterSpacing="3"
-              fill="#fbf3e8"
-              fillOpacity={0.35 + i * 0.15}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 2.5 + i * 0.12 }}
-            >
-              {s}
-            </motion.text>
-          ))}
-          {["→", "→", "→"].map((arrow, i) => (
-            <motion.text
-              key={i}
-              x={212 + i * 175}
-              y="0"
-              fontSize="10"
-              fill="#ff5d8f"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 0.8 }}
-              viewport={{ once: true }}
-              transition={{ delay: 2.62 + i * 0.12 }}
-            >
-              {arrow}
-            </motion.text>
-          ))}
-        </g>
-
-        {/* status */}
-        <motion.text
-          x="740"
-          y="30"
-          textAnchor="end"
-          fontSize="9"
-          letterSpacing="2"
-          fill="#ff9a6b"
-          fontFamily="var(--font-jetbrains-mono), monospace"
-          animate={reduced ? {} : { opacity: [0.4, 0.9, 0.4] }}
-          transition={{ duration: 2.4, repeat: Infinity }}
-        >
-          IN DEVELOPMENT - BUILD STARTING
-        </motion.text>
-      </svg>
-    </div>
+      {/* component stickers the tutor will cover */}
+      {PARTS.map((p, i) => {
+        const x = 30 + i * 68;
+        return (
+          <g key={p.label} className="doodle-float" style={{ animationDelay: `${i * -0.4}s` }}>
+            <g transform={`rotate(${i % 2 ? 4 : -4} ${x + 30} 320)`}>
+              <rect x={x} y="298" width="60" height="44" rx="10" fill={p.fill} {...ink} />
+              <text x={x + 30} y="326" textAnchor="middle" className="font-hand" fontSize={p.label.length > 5 ? 15 : 18} fontWeight={700} fill={INK}>
+                {p.label}
+              </text>
+            </g>
+          </g>
+        );
+      })}
+      <Hand x={40} y={378} size={20}>parts it&apos;ll teach ↑</Hand>
+    </Frame>
   );
 }

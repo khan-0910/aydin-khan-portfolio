@@ -1,181 +1,74 @@
-"use client";
+import { Arrow, C, Frame, Hand, INK, Steps, ink } from "./doodle";
 
-import { motion, useReducedMotion } from "motion/react";
-
-/**
- * PREMIER LEAGUE FOOTBALL ANALYTICS — IN PROGRESS.
- * Living pitch + pipeline: DATA → PROCESS → ANALYZE → VISUALIZE.
- * Everything moves — this project is actively being built.
- */
-
-const EASE = [0.16, 1, 0.3, 1] as const;
-
-const PIPELINE = ["DATA", "PROCESS", "ANALYZE", "VISUALIZE"];
-
-const HOME_XI = [
-  { x: 200, y: 260 }, // GK
-  { x: 130, y: 170 }, { x: 130, y: 350 },
-  { x: 180, y: 120 }, { x: 185, y: 260 }, { x: 180, y: 400 },
-  { x: 260, y: 160 }, { x: 265, y: 260 }, { x: 260, y: 360 },
-  { x: 340, y: 200 }, { x: 340, y: 320 },
+const HOME = [
+  [80, 90],
+  [90, 220],
+  [150, 150],
+  [180, 80],
+  [260, 200],
 ];
-
-const AWAY_XI = [
-  { x: 600, y: 260 },
-  { x: 670, y: 170 }, { x: 670, y: 350 },
-  { x: 620, y: 120 }, { x: 615, y: 260 }, { x: 620, y: 400 },
-  { x: 540, y: 160 }, { x: 535, y: 260 }, { x: 540, y: 360 },
-  { x: 460, y: 200 }, { x: 460, y: 320 },
+const AWAY = [
+  [300, 90],
+  [320, 225],
+  [250, 120],
+  [130, 240],
+  [355, 155],
 ];
+const PASS = "M80 90 L150 150 L180 80 L260 200 L340 160";
+const BARS = [60, 95, 45, 120];
 
-export default function FootballVisual({ expanded = false }: { expanded?: boolean }) {
-  const reduced = useReducedMotion();
-
+export default function FootballVisual() {
   return (
-    <div className="relative" aria-label="Football analytics environment: in progress">
-      <svg viewBox="0 0 800 520" className="h-auto w-full" role="img" aria-label="Football analytics pitch with player nodes and data pipeline">
-        <defs>
-          <linearGradient id="fb-ball" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#ff5d8f" />
-            <stop offset="100%" stopColor="#ff9a6b" />
-          </linearGradient>
-        </defs>
+    <Frame
+      label="Doodle of the football analytics project: a pitch with player dots and a ball being passed, a bar chart on a sticky note, and the data pipeline"
+      caption="premier league analytics: wiring up the data now"
+    >
+      {/* pitch */}
+      <rect x="30" y="30" width="360" height="250" rx="16" fill={C.mint} {...ink} />
+      <g fill="none" stroke={C.cream} strokeWidth="2.5">
+        <line x1="210" y1="30" x2="210" y2="280" />
+        <circle cx="210" cy="155" r="34" />
+        <rect x="30" y="105" width="50" height="100" />
+        <rect x="340" y="105" width="50" height="100" />
+      </g>
 
-        {/* ---------- pitch ---------- */}
-        <rect x="60" y="40" width="680" height="440" fill="#2a1d40" fillOpacity="0.35" stroke="#5fe0c0" strokeOpacity="0.35" strokeWidth="1.2" />
-        {/* halfway line + circle */}
-        <line x1="400" y1="40" x2="400" y2="480" stroke="#5fe0c0" strokeOpacity="0.3" strokeWidth="1" />
-        <circle cx="400" cy="260" r="60" fill="none" stroke="#5fe0c0" strokeOpacity="0.3" strokeWidth="1" />
-        {/* boxes */}
-        <rect x="60" y="150" width="90" height="220" fill="none" stroke="#5fe0c0" strokeOpacity="0.3" strokeWidth="1" />
-        <rect x="650" y="150" width="90" height="220" fill="none" stroke="#5fe0c0" strokeOpacity="0.3" strokeWidth="1" />
-        {/* pitch texture — fine grid */}
-        <g opacity="0.14">
-          {[120, 180, 240, 300, 360, 420].map((y) => (
-            <line key={y} x1="60" y1={y} x2="740" y2={y} stroke="#fbf3e8" strokeWidth="0.5" />
-          ))}
-        </g>
+      {/* passing lane + ball */}
+      <path d={PASS} fill="none" stroke={C.hot} strokeWidth="2.5" strokeDasharray="6 6" strokeLinecap="round" />
+      {HOME.map(([x, y], i) => (
+        <circle key={`h${i}`} cx={x} cy={y} r="11" fill={C.pink} {...ink} className="doodle-float" style={{ animationDelay: `${i * -0.6}s` }} />
+      ))}
+      {AWAY.map(([x, y], i) => (
+        <circle key={`a${i}`} cx={x} cy={y} r="11" fill={C.sky} {...ink} className="doodle-float" style={{ animationDelay: `${i * -0.5 - 0.3}s` }} />
+      ))}
+      <circle r="7" fill={C.cream} {...ink} strokeWidth={2.5}>
+        <animateMotion dur="3.5s" repeatCount="indefinite" path={PASS} />
+      </circle>
+      <Hand x={40} y={312} rotate={-2}>each dot = a player node</Hand>
 
-        {/* ---------- player nodes ---------- */}
-        {HOME_XI.map((p, i) => (
-          <motion.g
-            key={`h${i}`}
-            initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ delay: 0.2 + i * 0.03, type: "spring", stiffness: 300, damping: 18 }}
-            style={{ transformOrigin: `${p.x}px ${p.y}px` }}
-          >
-            {/* bob via transform, not the cy attribute (attribute animation renders undefined) */}
-            <motion.g animate={reduced ? {} : { y: [0, -3, 0] }} transition={{ duration: 2.6 + (i % 4), repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}>
-              <circle cx={p.x} cy={p.y} r="7" fill="#9b85ff" fillOpacity="0.9" />
-              <circle cx={p.x} cy={p.y} r="11" fill="none" stroke="#9b85ff" strokeOpacity="0.35" strokeWidth="1" />
-            </motion.g>
-          </motion.g>
+      {/* sticky note bar chart */}
+      <g transform="rotate(3 492 125)">
+        <rect x="410" y="30" width="165" height="195" rx="6" fill={C.butter} {...ink} />
+        <Hand x={425} y={62} color={INK}>passes / player</Hand>
+        <line x1="425" y1="200" x2="560" y2="200" stroke={INK} strokeWidth="2.5" strokeLinecap="round" />
+        {BARS.map((h, i) => (
+          <rect
+            key={i}
+            x={432 + i * 32}
+            y={200 - h}
+            width="22"
+            height={h}
+            rx="4"
+            fill={i % 2 ? C.sky : C.pink}
+            {...ink}
+            strokeWidth={2.5}
+            className="bar-grow"
+            style={{ animationDelay: `${i * 0.25}s` }}
+          />
         ))}
-        {AWAY_XI.map((p, i) => (
-          <motion.g
-            key={`a${i}`}
-            initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ delay: 0.3 + i * 0.03, type: "spring", stiffness: 300, damping: 18 }}
-            style={{ transformOrigin: `${p.x}px ${p.y}px` }}
-          >
-            <motion.g animate={reduced ? {} : { y: [0, 3, 0] }} transition={{ duration: 2.8 + (i % 4), repeat: Infinity, ease: "easeInOut", delay: i * 0.12 }}>
-              <circle cx={p.x} cy={p.y} r="7" fill="#fbf3e8" fillOpacity="0.75" />
-              <circle cx={p.x} cy={p.y} r="11" fill="none" stroke="#fbf3e8" strokeOpacity="0.3" strokeWidth="1" />
-            </motion.g>
-          </motion.g>
-        ))}
+      </g>
+      <Arrow d="M300 250 C 360 300, 420 270, 450 236" dashed />
 
-        {/* ---------- ball path (pass trajectory) ---------- */}
-        <motion.path
-          d="M 340 320 Q 400 200 460 320"
-          fill="none"
-          stroke="#ff5d8f"
-          strokeWidth="1.5"
-          strokeDasharray="5 5"
-          initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.4, delay: 0.6, ease: EASE }}
-        />
-        <motion.circle
-          r="5"
-          fill="url(#fb-ball)"
-          cx="340"
-          cy="320"
-          animate={reduced ? {} : { offsetDistance: ["0%", "100%"] }}
-          style={{
-            offsetPath: "path('M 340 320 Q 400 200 460 320')",
-            offsetRotate: "0deg",
-          }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.6 }}
-        />
-
-        {/* ---------- pipeline under pitch ---------- */}
-        <g transform="translate(0,506)">
-          {PIPELINE.map((stage, i) => (
-            <g key={stage}>
-              <rect
-                x={90 + i * 160}
-                y="0"
-                width="120"
-                height="0" // invisible; text anchor only
-                fill="none"
-              />
-              <motion.text
-                x={150 + i * 160}
-                y="0"
-                textAnchor="middle"
-                fontSize="10"
-                letterSpacing="3"
-                fill="#fbf3e8"
-                fillOpacity={0.55 + i * 0.12}
-                fontFamily="var(--font-jetbrains-mono), monospace"
-                initial={{ opacity: 0, y: 6 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 + i * 0.15, duration: 0.4 }}
-              >
-                {stage}
-              </motion.text>
-              {i < PIPELINE.length - 1 && (
-                <motion.line
-                  x1={212 + i * 160}
-                  y1="-4"
-                  x2={238 + i * 160}
-                  y2="-4"
-                  stroke="#5fe0c0"
-                  strokeWidth="1.2"
-                  strokeDasharray="3 3"
-                  className="animate-dash-flow"
-                  initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.7 + i * 0.15, duration: 0.3 }}
-                />
-              )}
-            </g>
-          ))}
-        </g>
-
-        {/* ---------- live status tape ---------- */}
-        <motion.text
-          x="740"
-          y="30"
-          textAnchor="end"
-          fontSize="9"
-          letterSpacing="2"
-          fill="#ff5d8f"
-          fontFamily="var(--font-jetbrains-mono), monospace"
-          animate={reduced ? {} : { opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          IN PROGRESS - PIPELINE UNDER CONSTRUCTION
-        </motion.text>
-      </svg>
-    </div>
+      <Steps y={345} items={["data", "process", "analyze", "visualize"]} colors={[C.lilac, C.peach, C.sky, C.pink]} />
+    </Frame>
   );
 }

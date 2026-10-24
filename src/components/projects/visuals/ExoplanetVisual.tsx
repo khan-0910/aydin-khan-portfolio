@@ -1,155 +1,47 @@
-"use client";
+import { Arrow, C, Frame, Hand, INK, Steps, ink } from "./doodle";
 
-import { motion, useReducedMotion } from "motion/react";
+const ORBIT = "M30 150 A120 38 0 1 0 270 150 A120 38 0 1 0 30 150";
+const CURVE = "M340 95 H420 C 430 95, 432 140, 445 140 H470 C 483 140, 485 95, 495 95 H560";
 
-/**
- * AI EXOPLANET DETECTION — STARTING SOON.
- * Skeletal wireframe aesthetic: orbit rings, faint star field, a single
- * light-curve trace being "measured". Everything dashed/faint — pre-build.
- */
-
-const EASE = [0.16, 1, 0.3, 1] as const;
-
-const STARS: Array<{ x: number; y: number; r: number }> = [
-  { x: 90, y: 70, r: 1.4 },
-  { x: 180, y: 40, r: 1 },
-  { x: 320, y: 90, r: 1.6 },
-  { x: 460, y: 50, r: 1.1 },
-  { x: 580, y: 100, r: 1.5 },
-  { x: 700, y: 60, r: 1 },
-  { x: 740, y: 180, r: 1.3 },
-  { x: 70, y: 200, r: 1 },
-  { x: 620, y: 300, r: 1.2 },
-  { x: 120, y: 330, r: 1.4 },
-];
-
-export default function ExoplanetVisual({ expanded = false }: { expanded?: boolean }) {
-  const reduced = useReducedMotion();
-
+export default function ExoplanetVisual() {
   return (
-    <div aria-label="Exoplanet detection pipeline: starting soon">
-      <svg viewBox="0 0 800 520" className="h-auto w-full" role="img" aria-label="Skeletal orbital system with light curve pipeline">
-        {/* ---------- star field (skeletal) ---------- */}
-        {STARS.map((s, i) => (
-          <motion.circle
-            key={i}
-            cx={s.x}
-            cy={s.y}
-            r={s.r}
-            fill="#fbf3e8"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: [0, 0.7, 0.3] }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 + i * 0.08, duration: 1.2 }}
-          />
-        ))}
+    <Frame
+      label="Doodle of the exoplanet project: a planet orbiting a star, and a light curve with a small dip when the planet passes in front"
+      caption="exoplanet hunt: spot the tiny dips in starlight (starting soon!)"
+    >
+      {/* star + orbit + planet */}
+      <circle cx="150" cy="150" r="82" fill={C.butter} className="star-glow" />
+      <circle cx="150" cy="150" r="55" fill={C.butter} {...ink} />
+      <path d="M128 140 q4 -6 8 0 M164 140 q4 -6 8 0 M138 162 q12 10 24 0" fill="none" stroke={INK} strokeWidth="3" strokeLinecap="round" />
+      <path d={ORBIT} fill="none" stroke={C.cream} strokeWidth="2" strokeDasharray="5 7" />
+      <circle r="15" fill={C.lilac} {...ink}>
+        <animateMotion dur="6s" repeatCount="indefinite" path={ORBIT} />
+      </circle>
+      {[
+        [40, 50],
+        [262, 60],
+        [60, 262],
+        [250, 250],
+      ].map(([x, y], i) => (
+        <path key={i} d={`M${x} ${y - 8} V${y + 8} M${x - 8} ${y} H${x + 8}`} stroke={C.pink} strokeWidth="3" strokeLinecap="round" className="doodle-led" style={{ animationDelay: `${i * 0.3}s` }} />
+      ))}
 
-        {/* ---------- central star + dashed orbit ---------- */}
-        <g transform="translate(400,205)">
-          <motion.circle
-            r="26"
-            fill="none"
-            stroke="#fbf3e8"
-            strokeOpacity="0.7"
-            strokeWidth="1.2"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: EASE }}
-          />
-          <motion.g
-            animate={reduced ? {} : { rotate: 360 }}
-            transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-          >
-            <circle r="120" fill="none" stroke="#5fe0c0" strokeOpacity="0.4" strokeWidth="1" strokeDasharray="4 6" />
-            {/* transit dip marker */}
-            <circle cx="120" cy="0" r="4" fill="#5fe0c0" />
-          </motion.g>
-          <motion.g
-            animate={reduced ? {} : { rotate: -360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-          >
-            <circle r="170" fill="none" stroke="#9b85ff" strokeOpacity="0.35" strokeWidth="1" strokeDasharray="2 8" />
-            <circle cx="-170" cy="0" r="3" fill="#9b85ff" />
-          </motion.g>
-          {/* scientific grid behind */}
-          <circle r="205" fill="none" stroke="#fbf3e8" strokeOpacity="0.08" strokeWidth="1" />
-        </g>
+      {/* light curve on a notebook card */}
+      <g transform="rotate(-2 448 130)">
+        <rect x="320" y="40" width="255" height="180" rx="12" fill={C.cream} {...ink} />
+        <line x1="338" y1="60" x2="338" y2="195" stroke={INK} strokeWidth="2.5" strokeLinecap="round" />
+        <line x1="338" y1="195" x2="562" y2="195" stroke={INK} strokeWidth="2.5" strokeLinecap="round" />
+        <Hand x={346} y={74} size={18} color={INK}>brightness</Hand>
+        <Hand x={510} y={214} size={18} color={INK}>time →</Hand>
+        <path d={CURVE} fill="none" stroke={C.hot} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle r="6" fill={C.lilac} {...ink} strokeWidth={2.5}>
+          <animateMotion dur="4s" repeatCount="indefinite" path={CURVE} />
+        </circle>
+        <Hand x={420} y={176} size={20} color={C.hot}>dip = planet?!</Hand>
+      </g>
+      <Arrow d="M262 112 C 290 96, 300 100, 318 108" dashed />
 
-        {/* ---------- light curve panel ---------- */}
-        <g transform="translate(70,360)">
-          <rect x="0" y="0" width="300" height="130" fill="#2a1d40" fillOpacity="0.5" stroke="#fbf3e8" strokeOpacity="0.25" strokeWidth="1" />
-          <text x="12" y="20" fontSize="9" letterSpacing="2" fill="#fbf3e8" fillOpacity="0.6" fontFamily="var(--font-jetbrains-mono), monospace">
-            LIGHT CURVE / FLUX VS TIME
-          </text>
-          {/* the curve */}
-          <motion.path
-            d="M 12 70 L 60 66 L 80 68 L 100 64 L 118 90 L 132 62 L 170 66 L 200 63 L 224 88 L 240 65 L 288 67"
-            fill="none"
-            stroke="#5fe0c0"
-            strokeWidth="1.5"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.6, delay: 0.4, ease: EASE }}
-          />
-          {/* transit dips highlighted */}
-          {[118, 224].map((x) => (
-            <motion.g key={x} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 1.4 }}>
-              <line x1={x} y1="56" x2={x} y2="96" stroke="#ff5d8f" strokeWidth="1" strokeDasharray="3 3" />
-              <text x={x + 5} y="54" fontSize="8" fill="#ff5d8f" fontFamily="var(--font-jetbrains-mono), monospace">DIP?</text>
-            </motion.g>
-          ))}
-        </g>
-
-        {/* ---------- pipeline (right column) ---------- */}
-        <g transform="translate(460,400)" fontFamily="var(--font-jetbrains-mono), monospace">
-          {["TELESCOPE DATA", "LIGHT CURVE", "SIGNAL PROCESSING", "AI MODEL", "CANDIDATE"].map((stage, i) => (
-            <motion.g
-              key={stage}
-              initial={{ opacity: 0, x: -12 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 + i * 0.12, duration: 0.4 }}
-            >
-              <text x="0" y={i * 26} fontSize="10" letterSpacing="2" fill="#fbf3e8" fillOpacity={0.35 + i * 0.12}>
-                {stage}
-              </text>
-              {i < 4 && (
-                <line
-                  x1="8"
-                  y1={i * 26 + 6}
-                  x2="8"
-                  y2={(i + 1) * 26 - 6}
-                  stroke="#5fe0c0"
-                  strokeOpacity="0.5"
-                  strokeWidth="1"
-                  strokeDasharray="2 3"
-                />
-              )}
-            </motion.g>
-          ))}
-        </g>
-
-        {/* ---------- construction marks ---------- */}
-        <motion.g
-          animate={reduced ? {} : { opacity: [0.4, 0.9, 0.4] }}
-          transition={{ duration: 2.2, repeat: Infinity }}
-        >
-          <text x="740" y="30" textAnchor="end" fontSize="9" letterSpacing="2" fill="#ff9a6b" fontFamily="var(--font-jetbrains-mono), monospace">
-            STARTING SOON - PRE-BUILD
-          </text>
-        </motion.g>
-        {/* blueprint corner marks */}
-        {[
-          "M 20 40 V 20 H 40",
-          "M 780 40 V 20 H 760",
-          "M 20 480 V 500 H 40",
-          "M 780 480 V 500 H 760",
-        ].map((d, i) => (
-          <path key={i} d={d} fill="none" stroke="#fbf3e8" strokeOpacity="0.3" strokeWidth="1" />
-        ))}
-      </svg>
-    </div>
+      <Steps y={330} items={["light curve", "clean it", "ML model", "candidate?"]} colors={[C.butter, C.mint, C.lilac, C.pink]} />
+    </Frame>
   );
 }
