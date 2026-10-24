@@ -17,7 +17,7 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#1c2b23",
+          background: "#2a1d40",
           padding: 64,
           position: "relative",
         }}
@@ -31,7 +31,7 @@ export default function OpengraphImage() {
             bottom: 0,
             display: "flex",
             backgroundImage:
-              "linear-gradient(to right, rgba(228,230,216,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(228,230,216,0.05) 1px, transparent 1px)",
+              "linear-gradient(to right, rgba(251,243,232,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(251,243,232,0.05) 1px, transparent 1px)",
             backgroundSize: "48px 48px",
           }}
         />
@@ -39,7 +39,7 @@ export default function OpengraphImage() {
           <div
             style={{
               display: "flex",
-              color: "#79857a",
+              color: "#8c7fa6",
               fontSize: 22,
               letterSpacing: 4,
               fontFamily: "monospace",
@@ -47,13 +47,13 @@ export default function OpengraphImage() {
           >
             DIGITAL ENGINEERING WORKSHOP
           </div>
-          <div style={{ display: "flex", width: 48, height: 48, background: "#ff5a1f" }} />
+          <div style={{ display: "flex", width: 48, height: 48, background: "#ff5d8f" }} />
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
               display: "flex",
-              color: "#e4e6d8",
+              color: "#fbf3e8",
               fontSize: 132,
               fontWeight: 700,
               letterSpacing: -2,
@@ -65,7 +65,7 @@ export default function OpengraphImage() {
           <div
             style={{
               display: "flex",
-              color: "#ff5a1f",
+              color: "#ff5d8f",
               fontSize: 34,
               letterSpacing: 8,
               marginTop: 24,
@@ -77,7 +77,7 @@ export default function OpengraphImage() {
           <div
             style={{
               display: "flex",
-              color: "#79857a",
+              color: "#8c7fa6",
               fontSize: 26,
               marginTop: 18,
               fontFamily: "monospace",
@@ -86,7 +86,7 @@ export default function OpengraphImage() {
             VIT CHENNAI - BUILD / TEST / ITERATE
           </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", color: "#6f6d63", fontSize: 20, fontFamily: "monospace" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", color: "#7a6d86", fontSize: 20, fontFamily: "monospace" }}>
           <div style={{ display: "flex" }}>13.0827° N / 80.2707° E - CHENNAI, TN</div>
           <div style={{ display: "flex" }}>REV 2026.A</div>
         </div>

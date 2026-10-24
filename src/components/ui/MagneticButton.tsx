@@ -46,7 +46,7 @@ export default function MagneticButton({
     <motion.span
       whileTap={reduced ? undefined : { scale: 0.96, y: 2 }}
       transition={{ type: "spring", stiffness: 400, damping: 22 }}
-      className={`relative flex items-center justify-center gap-3 px-7 py-4 font-mono text-[12px] font-medium uppercase tracking-[0.25em] transition-colors duration-300 ${
+      className={`relative flex items-center justify-center gap-3 rounded-full px-7 py-3.5 text-[15px] font-semibold transition-colors duration-300 ${
         variant === "primary"
           ? "btn-primary hover:!text-[var(--color-ivory)]"
           : "border border-line-2 text-paper hover:border-amber hover:text-amber"

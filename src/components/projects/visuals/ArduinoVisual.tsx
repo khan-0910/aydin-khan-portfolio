@@ -17,11 +17,11 @@ const TOP_PINS = Array.from({ length: 10 }, (_, i) => 150 + i * 28);
 const BOT_PINS = Array.from({ length: 8 }, (_, i) => 172 + i * 28);
 
 const COMPONENTS = [
-  { id: "led", label: "LED + R", x: 250, y: 120, color: "#ff5a1f", trace: "M 360 254 L 250 254 L 250 136" },
-  { id: "button", label: "BUTTON + POT", x: 520, y: 130, color: "#5b78ff", trace: "M 450 254 L 520 254 L 520 146" },
-  { id: "hc04", label: "HC-SR04", x: 250, y: 412, color: "#20c7d9", trace: "M 360 260 L 250 260 L 250 396" },
-  { id: "dht", label: "DHT11", x: 430, y: 412, color: "#ff7657", trace: "M 440 268 L 440 396" },
-  { id: "servo", label: "SG90 SERVO", x: 590, y: 412, color: "#e4e6d8", trace: "M 450 260 L 590 260 L 590 396" },
+  { id: "led", label: "LED + R", x: 250, y: 120, color: "#ff5d8f", trace: "M 360 254 L 250 254 L 250 136" },
+  { id: "button", label: "BUTTON + POT", x: 520, y: 130, color: "#9b85ff", trace: "M 450 254 L 520 254 L 520 146" },
+  { id: "hc04", label: "HC-SR04", x: 250, y: 412, color: "#5fe0c0", trace: "M 360 260 L 250 260 L 250 396" },
+  { id: "dht", label: "DHT11", x: 430, y: 412, color: "#ff9a6b", trace: "M 440 268 L 440 396" },
+  { id: "servo", label: "SG90 SERVO", x: 590, y: 412, color: "#fbf3e8", trace: "M 450 260 L 590 260 L 590 396" },
 ];
 
 export default function ArduinoVisual({ expanded = false }: { expanded?: boolean }) {
@@ -44,7 +44,7 @@ export default function ArduinoVisual({ expanded = false }: { expanded?: boolean
               y1="30"
               x2={60 + i * 40}
               y2="500"
-              stroke="#20c7d9"
+              stroke="#5fe0c0"
               strokeOpacity="0.12"
               strokeWidth="1"
               initial={{ pathLength: 0 }}
@@ -54,7 +54,7 @@ export default function ArduinoVisual({ expanded = false }: { expanded?: boolean
             />
           ))}
           {Array.from({ length: 6 }).map((_, i) => (
-            <line key={`h${i}`} x1="60" y1={70 + i * 80} x2="740" y2={70 + i * 80} stroke="#20c7d9" strokeOpacity="0.1" strokeWidth="1" />
+            <line key={`h${i}`} x1="60" y1={70 + i * 80} x2="740" y2={70 + i * 80} stroke="#5fe0c0" strokeOpacity="0.1" strokeWidth="1" />
           ))}
           {/* AR corner brackets */}
           {[
@@ -63,7 +63,7 @@ export default function ArduinoVisual({ expanded = false }: { expanded?: boolean
             "M 70 470 V 490 H 100",
             "M 730 470 V 490 H 700",
           ].map((d, i) => (
-            <path key={i} d={d} fill="none" stroke="#20c7d9" strokeOpacity="0.6" strokeWidth="1.5" />
+            <path key={i} d={d} fill="none" stroke="#5fe0c0" strokeOpacity="0.6" strokeWidth="1.5" />
           ))}
           <motion.text
             x="108"
@@ -71,7 +71,7 @@ export default function ArduinoVisual({ expanded = false }: { expanded?: boolean
             textAnchor="start"
             fontSize="9"
             letterSpacing="2"
-            fill="#20c7d9"
+            fill="#5fe0c0"
             fillOpacity="0.9"
             fontFamily="var(--font-jetbrains-mono), monospace"
           >
@@ -87,9 +87,9 @@ export default function ArduinoVisual({ expanded = false }: { expanded?: boolean
             width="480"
             height="230"
             rx="8"
-            fill="#1c2b23"
+            fill="#2a1d40"
             fillOpacity="0.4"
-            stroke="#e4e6d8"
+            stroke="#fbf3e8"
             strokeOpacity="0.5"
             strokeWidth="1.5"
             strokeDasharray="6 4"
@@ -99,20 +99,20 @@ export default function ArduinoVisual({ expanded = false }: { expanded?: boolean
             transition={{ duration: 1.2, ease: EASE }}
           />
           {/* ATmega328P chip */}
-          <rect x="200" y="90" width="90" height="28" fill="none" stroke="#e4e6d8" strokeOpacity="0.6" strokeWidth="1" />
-          <text x="245" y="107" textAnchor="middle" fontSize="8" fill="#e4e6d8" fillOpacity="0.7" fontFamily="var(--font-jetbrains-mono), monospace">
+          <rect x="200" y="90" width="90" height="28" fill="none" stroke="#fbf3e8" strokeOpacity="0.6" strokeWidth="1" />
+          <text x="245" y="107" textAnchor="middle" fontSize="8" fill="#fbf3e8" fillOpacity="0.7" fontFamily="var(--font-jetbrains-mono), monospace">
             ATMEGA328P
           </text>
           {/* USB region */}
-          <rect x="0" y="40" width="44" height="30" fill="none" stroke="#e4e6d8" strokeOpacity="0.4" strokeWidth="1" />
+          <rect x="0" y="40" width="44" height="30" fill="none" stroke="#fbf3e8" strokeOpacity="0.4" strokeWidth="1" />
           {/* power jack */}
-          <rect x="0" y="160" width="36" height="40" fill="none" stroke="#e4e6d8" strokeOpacity="0.4" strokeWidth="1" />
+          <rect x="0" y="160" width="36" height="40" fill="none" stroke="#fbf3e8" strokeOpacity="0.4" strokeWidth="1" />
           {/* headers */}
           {TOP_PINS.map((x) => (
-            <rect key={x} x={x - 160} y="-10" width="6" height="10" fill="#ffcd8a" fillOpacity="0.75" />
+            <rect key={x} x={x - 160} y="-10" width="6" height="10" fill="#ffd36e" fillOpacity="0.75" />
           ))}
           {BOT_PINS.map((x) => (
-            <rect key={x} x={x - 160} y="230" width="6" height="10" fill="#ffcd8a" fillOpacity="0.75" />
+            <rect key={x} x={x - 160} y="230" width="6" height="10" fill="#ffd36e" fillOpacity="0.75" />
           ))}
 
           {/* ---------- pin illumination sequence ---------- */}
@@ -123,7 +123,7 @@ export default function ArduinoVisual({ expanded = false }: { expanded?: boolean
               cy="-14"
               r="4"
               fill="none"
-              stroke="#ff5a1f"
+              stroke="#ff5d8f"
               strokeWidth="1.2"
               initial={{ opacity: 0, scale: 0.4 }}
               whileInView={{ opacity: [0, 1, 0.25], scale: 1 }}
@@ -143,7 +143,7 @@ export default function ArduinoVisual({ expanded = false }: { expanded?: boolean
             viewport={{ once: true }}
             transition={{ delay: 1.4 + i * 0.18, duration: 0.5, ease: EASE }}
           >
-            <rect x={c.x - 42} y={c.y - 16} width="84" height="32" fill="#1c2b23" fillOpacity="0.55" stroke={c.color} strokeWidth="1.2" />
+            <rect x={c.x - 42} y={c.y - 16} width="84" height="32" fill="#2a1d40" fillOpacity="0.55" stroke={c.color} strokeWidth="1.2" />
             <text x={c.x} y={c.y + 3} textAnchor="middle" fontSize="8.5" letterSpacing="1" fill={c.color} fontFamily="var(--font-jetbrains-mono), monospace">
               {c.label}
             </text>
@@ -174,7 +174,7 @@ export default function ArduinoVisual({ expanded = false }: { expanded?: boolean
               textAnchor="middle"
               fontSize="10"
               letterSpacing="3"
-              fill="#e4e6d8"
+              fill="#fbf3e8"
               fillOpacity={0.35 + i * 0.15}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -190,7 +190,7 @@ export default function ArduinoVisual({ expanded = false }: { expanded?: boolean
               x={212 + i * 175}
               y="0"
               fontSize="10"
-              fill="#ff5a1f"
+              fill="#ff5d8f"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 0.8 }}
               viewport={{ once: true }}
@@ -208,7 +208,7 @@ export default function ArduinoVisual({ expanded = false }: { expanded?: boolean
           textAnchor="end"
           fontSize="9"
           letterSpacing="2"
-          fill="#ff7657"
+          fill="#ff9a6b"
           fontFamily="var(--font-jetbrains-mono), monospace"
           animate={reduced ? {} : { opacity: [0.4, 0.9, 0.4] }}
           transition={{ duration: 2.4, repeat: Infinity }}

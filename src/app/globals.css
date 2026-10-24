@@ -1,42 +1,38 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: var(--font-space-grotesk), "Space Grotesk", system-ui, sans-serif;
+  --font-display: var(--font-bricolage), "Bricolage Grotesque", system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, monospace;
   --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-hand: var(--font-caveat), "Caveat", "Segoe Print", cursive;
 
-  /* ==== DRAFTING-MAT SAGE WORLD ====
-     base = the self-healing cutting mat (mid sage, light-dominant site)
-     panel = machine housing (deep spruce) — dark appears as instruments, not as the page
-     ink = spruce ink; accents: orange leads (hands-on-bench), drafting blue = interactive,
-     cyan = signals inside machine screens only, coral = break states */
+  /* ==== CANDY PLUM ====
+     cream page, plum ink, raspberry/candy-pink lead accent, mint signals,
+     violet for interactive states, peach for warm notes. Token names are
+     kept from the old theme so components didn't need renaming. */
 
-  /* sage base surfaces (the mat) */
-  --color-graphite: #b7beae;
-  --color-panel: #1c2b23;
-  --color-panel-2: #243629;
-  --color-line: #a3ab9b;
-  --color-line-2: #8f998a;
+  --color-graphite: #ebe5ff;
+  --color-panel: #2a1d40;
+  --color-panel-2: #352651;
+  --color-line: #e3d7c6;
+  --color-line-2: #cdbca8;
 
-  /* spruce ink (replaces navy as the universal ink) */
-  --color-navy: #22322a;
-  --color-navy-2: #1c2b23;
-  --color-ink: #22322a;
+  --color-navy: #2b2140;
+  --color-navy-2: #2a1d40;
+  --color-ink: #2b2140;
 
-  /* machine-screen text ramp (light text on spruce) */
-  --color-paper: #e4e6d8;
-  --color-paper-dim: #aeb7a6;
-  --color-paper-faint: #79857a;
+  --color-paper: #fbf3e8;
+  --color-paper-dim: #d6cbe3;
+  --color-paper-faint: #b5a8ca;
 
-  /* accents */
-  --color-amber: #e8480e;
-  --color-amber-deep: #c73c0a;
-  --color-green: #20c7d9; /* cyan — signals inside machine screens */
-  --color-cyan: #20c7d9;
-  --color-cobalt: #3452e0; /* drafting blue — interactive states */
-  --color-coral: #e06a4e;
-  --color-paleblue: #dfe4f6;
-  --color-ivory: #b3bda2; /* hero/loader canvas — the greener mat */
+  --color-amber: #ff5d8f;
+  --color-amber-deep: #e0457b;
+  --color-green: #5fe0c0;
+  --color-cyan: #5fe0c0;
+  --color-cobalt: #6d4aff;
+  --color-coral: #ff9a6b;
+  --color-paleblue: #ece6ff;
+  --color-ivory: #fdf0e6;
 
   --ease-mech: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -67,19 +63,19 @@ body {
 }
 
 ::selection {
-  background: var(--color-amber);
-  color: #f2f2ea;
+  background: #ffc2d6;
+  color: #2b2140;
 }
 
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-navy-2);
+  background: #ddd4ff;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--color-line-2);
-  border: 2px solid var(--color-navy-2);
+  border: 2px solid #ddd4ff;
   border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -91,24 +87,24 @@ body {
 .blueprint-bg-dark,
 .blueprint-bg {
   background-image:
-    linear-gradient(to right, rgba(34, 50, 42, 0.09) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(34, 50, 42, 0.09) 1px, transparent 1px);
+    linear-gradient(to right, rgba(43,33,64, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(43,33,64, 0.09) 1px, transparent 1px);
   background-size: 96px 96px;
 }
 
 .blueprint-bg-dark-fine,
 .blueprint-bg-fine {
   background-image:
-    linear-gradient(to right, rgba(34, 50, 42, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(34, 50, 42, 0.06) 1px, transparent 1px);
+    linear-gradient(to right, rgba(43,33,64, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(43,33,64, 0.06) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 /* dark-surface grid (machine screens) */
 .grid-machine {
   background-image:
-    linear-gradient(to right, rgba(228, 230, 216, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(228, 230, 216, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(251,243,232, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(251,243,232, 0.05) 1px, transparent 1px);
   background-size: 96px 96px;
 }
 
@@ -119,8 +115,8 @@ body {
     -45deg,
     transparent 0px,
     transparent 5px,
-    rgba(34, 50, 42, 0.12) 5px,
-    rgba(34, 50, 42, 0.12) 6px
+    rgba(43,33,64, 0.12) 5px,
+    rgba(43,33,64, 0.12) 6px
   );
 }
 
@@ -272,143 +268,144 @@ input[type="range"].range-tech::-moz-range-thumb {
    THEME SCOPES
    ============================================================ */
 
-/* ---- .theme-mat : the cutting-mat base (default light world) ----
-   Spruce ink on sage. Measured ramp on #b7beae (L≈0.50): faint #3d4c3d ≈ 4.8:1,
-   dim #3f4f44 ≈ 5.6:1, ink #22322a ≈ 9.9:1, amber #8a2a06 ≈ 4.6:1,
-   blue #2a3fa8 ≈ 4.6:1, teal #0a5551 ≈ 4.5:1, coral #802c1e ≈ 4.8:1.
-   Mid-on-mid is the hard case: accents go deep, vivid orange lives on hero/machines.
-   Panels sit slightly DARKER than the mat (not lighter) so cards read as cut
-   pieces on the bench — sage-on-sage lifts less than a shadow would. */
-.theme-mat {
-  --color-paper: #22322a;
-  --color-paper-dim: #3f4f44;
-  --color-paper-faint: #3d4c3d;
-  --color-line: #8d9a83;
-  --color-line-2: #77856d;
-  --color-panel: #a3ab99;
-  --color-panel-2: #99a290;
-  --color-amber: #8a2a06;
-  --color-green: #0a5551;
-  --color-cyan: #0a5551;
-  --color-coral: #802c1e;
-  --color-cobalt: #2a3fa8;
-
-  background: linear-gradient(180deg, #b0b7a7 0%, #b7beae 8%, #b7beae 92%, #b0b7a7 100%);
-  color: var(--color-navy);
-}
-
-.theme-mat ::selection {
-  background: #c73c0a;
-  color: #f2f2ea;
-}
-
-/* ---- .theme-light : hero + loader (the mat, a shade greener) ----
-   Same greyish-green family as the body mat but pushed slightly greener/deeper,
-   so boot → hero → body reads as one continuous bench. Ramp on #b3bda2 (L≈0.49):
-   faint #3a4a3c ≈ 4.8:1, dim #3f4f44 ≈ 5.7:1, amber #b53810 fills keep 4.9:1
-   with #f2f2ea text, blue #2a3fa8 ≈ 4.7:1, teal #0a5551 ≈ 4.6:1 */
-.theme-light {
-  --color-paper: #22322a;
-  --color-paper-dim: #3f4f44;
-  --color-paper-faint: #3a4a3c;
-  --color-line: #99a58d;
-  --color-line-2: #879480;
-  --color-panel: #a9b19c;
-  --color-panel-2: #a0a893;
-  --color-graphite: #b3bda2;
-  --color-amber: #b53810;
-  --color-green: #0a5551;
-  --color-cyan: #0a5551;
-  --color-coral: #802c1e;
-  --color-cobalt: #2a3fa8;
-
-  background: linear-gradient(180deg, #aab597 0%, #b3bda2 9%, #b3bda2 91%, #aab597 100%);
-  color: var(--color-navy);
-}
-
-.theme-light ::selection {
-  background: #c73c0a;
-  color: #f2f2ea;
-}
-
-/* ---- .theme-pale → repurposed as .theme-sheet : pale sage drafting sheet ----
-   Used by the project register. Slightly lighter/cooler than the mat so the
-   register reads as a clipped-on sheet. Ramp on #cdd3c2 (L≈0.63): faint #3a493e ≈ 5.8:1,
-   dim #384a3e ≈ 6.2:1, amber #9c2f0c ≈ 4.9:1, teal #0a5551 ≈ 5.6:1, coral #8c3020 ≈ 5.4:1 */
+/* ---- light themes: near-black plum ink on pastel, ink borders + offset shadows.
+   Accents stay deep so text keeps >= 5:1 on lavender, mint and butter. ---- */
+.theme-mat,
+.theme-light,
 .theme-pale {
-  --color-paper: #1c2b23;
-  --color-paper-dim: #384a3e;
-  --color-paper-faint: #3a493e;
-  --color-line: #aeb5a3;
-  --color-line-2: #99a291;
-  --color-panel: #c3c9b8;
-  --color-panel-2: #bac1b0;
-  --color-amber: #9c2f0c;
-  --color-green: #0a5551;
-  --color-cyan: #0a5551;
-  --color-coral: #8c3020;
-  --color-cobalt: #3049c9;
-
-  background: linear-gradient(180deg, #c6ccbb 0%, #cdd3c2 10%, #cdd3c2 90%, #c6ccbb 100%);
+  --color-navy: #1a1225;
+  --color-paper: #1a1225;
+  --color-paper-dim: #352b48;
+  --color-paper-faint: #4f4566;
+  --color-panel: #fffdf8;
+  --color-panel-2: #f7f3ff;
+  --color-amber: #b0174f;
+  --color-green: #0b6b55;
+  --color-cyan: #0b6b55;
+  --color-coral: #a3361c;
+  --color-cobalt: #4a2bc4;
+  --color-pop: #1a1225;
   color: var(--color-navy);
 }
 
-.theme-pale ::selection {
-  background: #b53810;
-  color: #f2f2ea;
+/* main page: lavender */
+.theme-mat {
+  --color-line: #cfc5f2;
+  --color-line-2: #b3a6e6;
+  background: #ebe5ff;
 }
+
+/* hero: lavender with peach, mint and butter glows */
+.theme-light {
+  --color-line: #cfc5f2;
+  --color-line-2: #b3a6e6;
+  --color-graphite: #ebe5ff;
+  background:
+    radial-gradient(50% 45% at 88% 15%, #ffd2e3 0%, transparent 70%),
+    radial-gradient(45% 40% at 5% 90%, #d0f4e6 0%, transparent 70%),
+    radial-gradient(35% 35% at 60% 105%, #fff1b8 0%, transparent 70%),
+    #ebe5ff;
+}
+
+/* projects: butter yellow */
+.theme-pale {
+  --color-line: #e8d47e;
+  --color-line-2: #d4bb52;
+  --color-panel-2: #fff8dc;
+  background: #fff1b8;
+}
+
+/* activities: mint (wins over .theme-mat because it comes later) */
+.bg-mint {
+  --color-line: #9fdcc4;
+  --color-line-2: #6fc6a6;
+  background: #d4f5ea;
+}
+
+/* sticker-card look: ink outline + hard offset shadow */
+.pop {
+  border: 2px solid var(--color-pop, #1a1225);
+  box-shadow: 4px 4px 0 var(--color-pop, #1a1225);
+}
+.pop-hover {
+  transition: transform 0.25s var(--ease-mech), box-shadow 0.25s var(--ease-mech);
+}
+.pop-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--color-pop, #1a1225);
+}
+
+/* highlighter swipe behind a word */
+.marker {
+  background: linear-gradient(transparent 58%, #ff9ec4 58%, #ff9ec4 92%, transparent 92%);
+  padding: 0 0.06em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* desk doodle motion */
+@keyframes servo-sweep {
+  0%, 100% { transform: rotate(-55deg); }
+  50% { transform: rotate(55deg); }
+}
+@keyframes led-blink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0.35; }
+}
+@keyframes ping-out {
+  from { transform: translateY(8px) scale(0.6); opacity: 0.9; }
+  to { transform: translateY(-14px) scale(1.4); opacity: 0; }
+}
+.doodle-servo { animation: servo-sweep 2.4s ease-in-out infinite; }
+.doodle-led { animation: led-blink 1.2s steps(1) infinite; }
+.doodle-glow { opacity: 0.35; filter: blur(8px); animation: led-blink 1.2s steps(1) infinite; }
+.doodle-ping { transform-box: fill-box; transform-origin: center; animation: ping-out 1.6s ease-out infinite; }
+.doodle-ping-late { animation-delay: 0.8s; }
 
 .theme-pale .hatch {
   background-image: repeating-linear-gradient(
     -45deg,
     transparent 0px,
     transparent 5px,
-    rgba(28, 43, 35, 0.14) 5px,
-    rgba(28, 43, 35, 0.14) 6px
+    rgba(43,33,64, 0.14) 5px,
+    rgba(43,33,64, 0.14) 6px
   );
 }
 
-/* ---- .theme-dark : machine housing (spruce, was navy) ----
-   LOGBOOK, contact finale, and every instrument screen. Cyan stays live here
-   — it's inside the machine now, exactly where it belongs. */
+/* ---- .theme-dark : plum night (activities, contact, project screens) ---- */
 .theme-dark {
-  --color-paper: #e4e6d8;
-  --color-paper-dim: #b9c2b0;
-  --color-paper-faint: #b7c4b3;
-  --color-line: #33453a;
-  --color-line-2: #45584b;
-  --color-panel: #1c2b23;
-  --color-panel-2: #243629;
-  --color-graphite: #141f19;
-  --color-amber: #ff5a1f;
-  --color-green: #20c7d9;
-  --color-cyan: #20c7d9;
-  --color-coral: #ff7657;
-  --color-cobalt: #7d95ff;
+  --color-paper: #fbf3e8;
+  --color-paper-dim: #d6cbe3;
+  --color-paper-faint: #b5a8ca;
+  --color-line: #3d2e55;
+  --color-line-2: #54426f;
+  --color-panel: #2a1d40;
+  --color-panel-2: #352651;
+  --color-graphite: #1d1430;
+  --color-amber: #ff5d8f;
+  --color-green: #5fe0c0;
+  --color-cyan: #5fe0c0;
+  --color-coral: #ff9a6b;
+  --color-cobalt: #b3a4ff;
+  --color-pop: #fbf3e8;
 
   background: var(--color-panel);
   color: var(--color-paper);
 }
 
-.theme-dark ::selection {
-  background: var(--color-amber);
-  color: #141f19;
-}
-
-/* primary button — amber fill with theme-correct ink, paper swap on hover.
-   --color-on-amber: dark themes get deep-ink text on the bright safety orange,
-   light themes (print-orange #b53810/#8a2a06/#9c2f0c) get warm-bone text. */
+/* primary button — accent fill; light themes use deep raspberry with cream text,
+   the dark theme uses candy pink with plum text. */
 .btn-primary {
   background: var(--color-amber);
-  color: var(--color-on-amber, #141f19);
+  color: var(--color-on-amber, #1d1430);
 }
 .theme-light,
 .theme-mat,
 .theme-pale {
-  --color-on-amber: #f2f2ea;
+  --color-on-amber: #fff8ef;
 }
 .theme-dark {
-  --color-on-amber: #141f19;
+  --color-on-amber: #1d1430;
 }
 .btn-primary:hover {
   background: var(--color-paper);
@@ -426,8 +423,15 @@ input[type="range"].range-tech::-moz-range-thumb {
   .animate-float,
   .animate-float-late,
   .animate-caret,
-  .animate-sys-pulse {
+  .animate-sys-pulse,
+  .doodle-servo,
+  .doodle-led,
+  .doodle-glow,
+  .doodle-ping {
     animation: none !important;
+  }
+  .doodle-motion {
+    display: none;
   }
   html {
     scroll-behavior: auto;

@@ -9,7 +9,7 @@ export default function TechnicalLabel({ children, className = "", ticks = false
   const hasColor = /(^|\s)text-/.test(className);
   return (
     <span
-      className={`inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] ${
+      className={`inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.08em] ${
         hasColor ? "" : "text-paper-faint"
       } ${className}`}
     >

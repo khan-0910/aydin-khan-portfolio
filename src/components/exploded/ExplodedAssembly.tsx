@@ -109,8 +109,8 @@ function Callout({
   const endX = part.anchor.x + dir * 72;
   const endY = part.anchor.y - 16;
   const label = part.label ?? part.name;
-  const lineStroke = active ? "#ff5a1f" : "#64798e";
-  const numFill = active ? "#ff5a1f" : "#ff5a1f";
+  const lineStroke = active ? "#ff5d8f" : "#7d6f98";
+  const numFill = active ? "#ff5d8f" : "#ff5d8f";
 
   return (
     <motion.g style={{ x, y }}>
@@ -123,7 +123,7 @@ function Callout({
         data-cursor="INSPECT"
       >
         {/* endpoint dot sits on the component */}
-        <circle cx={part.anchor.x} cy={part.anchor.y} r="3.5" fill="#e4e6d8" stroke={lineStroke} strokeWidth="1.2" />
+        <circle cx={part.anchor.x} cy={part.anchor.y} r="3.5" fill="#fbf3e8" stroke={lineStroke} strokeWidth="1.2" />
         {/* leader line with elbow */}
         <path
           d={`M ${part.anchor.x} ${part.anchor.y} L ${elbowX} ${part.anchor.y} L ${endX} ${endY}`}
@@ -143,8 +143,8 @@ function Callout({
           <tspan fill={numFill} opacity={active ? 1 : 0.8}>
             {part.num}
           </tspan>
-          <tspan fill="#64798e">{" //"}</tspan>
-          <tspan fill={active ? "#e4e6d8" : "#79857a"} fontWeight={active ? 600 : 400}>
+          <tspan fill="#7d6f98">{" //"}</tspan>
+          <tspan fill={active ? "#fbf3e8" : "#8c7fa6"} fontWeight={active ? 600 : 400}>
             {" "}
             {label}
           </tspan>
@@ -234,7 +234,7 @@ export default function ExplodedAssembly({
             className="pointer-events-none absolute left-1/2 top-0 h-full w-px -translate-x-1/2"
             style={{
               background:
-                "linear-gradient(to bottom, transparent, rgba(255,90,31,0.3) 18%, rgba(255,90,31,0.3) 82%, transparent)",
+                "linear-gradient(to bottom, transparent, rgba(255,93,143,0.3) 18%, rgba(255,93,143,0.3) 82%, transparent)",
             }}
           />
         )}

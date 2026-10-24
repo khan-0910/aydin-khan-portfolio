@@ -16,15 +16,17 @@ export type Project = {
   visual: "medical" | "ecommerce" | "football" | "exoplanet" | "arduino";
   /** built projects get PROBLEM→ITERATION; unfinished get CURRENT STATE→NEXT STEP */
   sections: CaseSection[];
+  /** progress checklist: flip `done` to true as you finish steps; the bar fills from these */
+  milestones?: { label: string; done: boolean }[];
 };
 
 export const PROJECTS: Project[] = [
   {
     id: "medical-box",
     number: "01",
-    name: "AUTOMATIC MEDICAL BOX",
+    name: "Automatic Medical Box",
     category: "MULTIDISCIPLINARY PROJECT",
-    year: "FIRST YEAR",
+    year: "First year",
     status: "BUILT",
     tagline: "An automated medical box with alarms and caretaker notifications.",
     description:
@@ -76,9 +78,9 @@ export const PROJECTS: Project[] = [
   {
     id: "ecommerce",
     number: "02",
-    name: "PYTHON E-COMMERCE WEBSITE",
+    name: "Python E-Commerce Website",
     category: "SOFTWARE",
-    year: "GRADE 12",
+    year: "Grade 12",
     status: "BUILT",
     tagline: "A Grade 12 Python project covering the full shop flow.",
     description:
@@ -126,9 +128,9 @@ export const PROJECTS: Project[] = [
   {
     id: "football-analytics",
     number: "03",
-    name: "PREMIER LEAGUE FOOTBALL ANALYTICS",
+    name: "Premier League Football Analytics",
     category: "DATA / SOFTWARE",
-    year: "IN DEVELOPMENT",
+    year: "In development",
     status: "IN PROGRESS",
     tagline: "A football analytics environment under active construction.",
     description:
@@ -167,9 +169,9 @@ export const PROJECTS: Project[] = [
   {
     id: "exoplanet",
     number: "04",
-    name: "AI EXOPLANET DETECTION",
+    name: "AI Exoplanet Detection",
     category: "RESEARCH / ML",
-    year: "STARTING SOON",
+    year: "Starting soon",
     status: "STARTING SOON",
     tagline: "A research project about to begin: telescope light curves meet ML.",
     description:
@@ -177,6 +179,13 @@ export const PROJECTS: Project[] = [
     hardware: [],
     software: ["PYTHON", "ML - PLANNED"],
     visual: "exoplanet",
+    milestones: [
+      { label: "Sketch the pipeline: light curve → signal processing → model", done: true },
+      { label: "Pick a public light-curve dataset", done: false },
+      { label: "First signal-processing pass", done: false },
+      { label: "Train a first detection model", done: false },
+      { label: "Shortlist exoplanet candidates", done: false },
+    ],
     sections: [
       {
         heading: "PROBLEM",
@@ -206,10 +215,10 @@ export const PROJECTS: Project[] = [
   {
     id: "ar-arduino",
     number: "05",
-    name: "AR ARDUINO INTERACTIVE TUTOR",
+    name: "AR Arduino Interactive Tutor",
     category: "AR / HARDWARE EDUCATION",
-    year: "IN DEVELOPMENT",
-    status: "STARTING SOON",
+    year: "In development",
+    status: "IN PROGRESS",
     tagline: "Point a phone at an Arduino and see it explained in place.",
     description:
       "An AR tutor built with Unity and AR Foundation: point a phone at an Arduino UNO and get spatial pinout overlays, an interactive 3D component catalog and animated signal waveforms.",
@@ -223,6 +232,14 @@ export const PROJECTS: Project[] = [
     ],
     software: ["UNITY", "AR FOUNDATION", "C# SCRIPTING", "BLENDER 3D ASSETS", "ANDROID DEPLOYMENT"],
     visual: "arduino",
+    milestones: [
+      { label: "Concept and architecture documented", done: true },
+      { label: "First Unity scene with AR Foundation pose tracking", done: false },
+      { label: "Spatial pinout overlay on the UNO", done: false },
+      { label: "3D component catalog (LED, button, HC-SR04, DHT11, SG90)", done: false },
+      { label: "Animated signal waveforms", done: false },
+      { label: "Android build", done: false },
+    ],
     sections: [
       {
         heading: "PROBLEM",

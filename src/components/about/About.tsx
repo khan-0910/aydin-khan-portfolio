@@ -4,42 +4,40 @@ import { motion } from "motion/react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import TechnicalLabel from "@/components/ui/TechnicalLabel";
 
-const EASE = [0.16, 1, 0.3, 1] as const;
-
-const TRAITS: Array<{ code: string; label: string; note: string }> = [
-  { code: "T-01", label: "COMPUTERS", note: "Comfortable in software land: code, tools, systems" },
-  { code: "T-02", label: "TINKERING", note: "Taking objects apart to see what's inside" },
-  { code: "T-03", label: "SIDE PROJECTS", note: "Small builds that keep the hands busy" },
-  { code: "T-04", label: "READING", note: "Fuel for the next idea" },
-  { code: "T-05", label: "SPORTS", note: "Football: discipline, teamwork, instinct" },
+const TRAITS: Array<{ label: string; note: string; bg: string }> = [
+  { label: "Computers", note: "code, tools, systems", bg: "#ffd6e5" },
+  { label: "Tinkering", note: "taking things apart to see inside", bg: "#e2dbff" },
+  { label: "Side projects", note: "small builds that keep my hands busy", bg: "#d4f5ea" },
+  { label: "Reading", note: "fuel for the next idea", bg: "#ffe9b8" },
+  { label: "Football", note: "teamwork, discipline, instinct", bg: "#ffdcc8" },
 ];
 
 const EDUCATION: Array<{ title: string; sub: string; meta: string }> = [
   {
-    title: "B.TECH - MECHATRONICS & AUTOMATION",
+    title: "B.Tech, Mechatronics & Automation",
     sub: "Vellore Institute of Technology, Chennai",
-    meta: "CGPA 7.0/10.0 - EXPECTED JUNE 2029",
+    meta: "CGPA 7.0 / 10 · expected June 2029",
   },
   {
-    title: "NATIONAL PUBLIC SCHOOL, CHENNAI",
-    sub: "Grade 10 GPA 8.6/10.0 / Grade 12 GPA 7.5/10.0 / SAT 1190",
-    meta: "CHENNAI, TAMIL NADU",
+    title: "National Public School, Chennai",
+    sub: "Grade 10 GPA 8.6 · Grade 12 GPA 7.5 · SAT 1190",
+    meta: "Chennai, Tamil Nadu",
   },
 ];
 
 const LANGUAGES = [
-  { name: "ENGLISH", level: "FLUENT" },
-  { name: "HINDI", level: "FLUENT" },
-  { name: "FRENCH", level: "FUNCTIONAL" },
-  { name: "TAMIL", level: "CONVERSATIONAL" },
-  { name: "KOREAN", level: "LEARNING" },
+  { name: "English", level: "fluent" },
+  { name: "Hindi", level: "fluent" },
+  { name: "French", level: "functional" },
+  { name: "Tamil", level: "conversational" },
+  { name: "Korean", level: "learning" },
 ];
 
 export default function About() {
   return (
     <section id="about" className="relative py-20 sm:py-24" aria-label="About Aydin Khan">
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
-        <SectionHeading index="02" label="OPERATOR PROFILE" title="Curious about how things work." />
+        <SectionHeading label="About me" title="Curious about how things work." />
 
         <div className="mx-auto mt-10 max-w-3xl">
           <p className="max-w-xl text-xl leading-relaxed text-paper-dim sm:text-2xl">
@@ -55,54 +53,48 @@ export default function About() {
             physical.
           </p>
 
-          {/* spec sheet - compact list */}
-          <div className="mt-10 border border-line bg-panel/60">
-            <div className="border-b border-line px-4 py-2">
-              <TechnicalLabel>INSPECTION - PERSONAL SPEC SHEET</TechnicalLabel>
-            </div>
-            <ul className="grid sm:grid-cols-2">
-              {TRAITS.map((t, i) => (
-                <motion.li
-                  key={t.code}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ delay: i * 0.05, duration: 0.4, ease: EASE }}
-                  className={`flex items-baseline gap-3 border-line/60 px-4 py-2.5 ${
-                    i % 2 === 0 ? "sm:border-r" : ""
-                  } ${i < TRAITS.length - (TRAITS.length % 2 === 1 ? 1 : 2) ? "border-b" : "border-b sm:border-b-0"} last:border-b-0 sm:last:border-b-0`}
-                >
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-amber">{t.code}</span>
-                  <span className="w-32 shrink-0 font-mono text-[11px] font-medium tracking-[0.15em] text-paper">
-                    {t.label}
-                  </span>
-                  <span className="text-[12px] leading-snug text-paper-faint">{t.note}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </div>
-
-          {/* education - compact */}
-          <div className="mt-6 space-y-3">
-            <TechnicalLabel>EDUCATION RECORD</TechnicalLabel>
-            {EDUCATION.map((e) => (
-              <div
-                key={e.title}
-                className="border border-line bg-panel/50 px-4 py-3 transition-colors duration-300 hover:border-line-2"
+          {/* things I'm into: chips pop in, then wobble on hover */}
+          <ul className="mt-10 flex flex-wrap gap-3">
+            {TRAITS.map((t, i) => (
+              <motion.li
+                key={t.label}
+                initial={{ opacity: 0, scale: 0.6, rotate: i % 2 ? 6 : -6 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: i % 2 ? 1.5 : -1.5 }}
+                whileHover={{ rotate: 0, y: -4, scale: 1.04 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: i * 0.07, type: "spring", stiffness: 320, damping: 18 }}
+                className="pop rounded-2xl px-4 py-2.5 text-navy"
+                style={{ background: t.bg }}
               >
-                <h3 className="font-mono text-[12px] font-medium tracking-[0.15em] text-paper">{e.title}</h3>
-                <p className="mt-0.5 text-[13px] text-paper-dim">{e.sub}</p>
-                <p className="mt-0.5 font-mono text-[10px] tracking-[0.2em] text-paper-faint">{e.meta}</p>
-              </div>
+                <span className="font-display text-base font-bold">{t.label}</span>
+                <span className="ml-2 text-sm text-navy/70">{t.note}</span>
+              </motion.li>
+            ))}
+          </ul>
+
+          <div className="mt-10 space-y-3">
+            <TechnicalLabel>Education</TechnicalLabel>
+            {EDUCATION.map((e, i) => (
+              <motion.div
+                key={e.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: i * 0.08, type: "spring", stiffness: 220, damping: 24 }}
+                className="pop pop-hover rounded-2xl bg-panel px-5 py-4"
+              >
+                <h3 className="font-display text-lg font-bold text-paper">{e.title}</h3>
+                <p className="mt-0.5 text-[14px] text-paper-dim">{e.sub}</p>
+                <p className="mt-1 text-[13px] text-paper-faint">{e.meta}</p>
+              </motion.div>
             ))}
           </div>
 
-          {/* languages - one compact line per language */}
-          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-1.5 border border-dashed border-line-2 px-4 py-3">
-            <TechnicalLabel>LANGUAGES</TechnicalLabel>
+          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-1.5 rounded-2xl border border-dashed border-line-2 px-5 py-3">
+            <TechnicalLabel>Languages</TechnicalLabel>
             {LANGUAGES.map((l) => (
-              <span key={l.name} className="font-mono text-[11px] tracking-[0.15em] text-paper-dim">
-                {l.name} <span className="text-paper-faint">- {l.level}</span>
+              <span key={l.name} className="text-[14px] text-paper-dim">
+                <span className="font-medium text-paper">{l.name}</span> <span className="text-paper-faint">· {l.level}</span>
               </span>
             ))}
           </div>

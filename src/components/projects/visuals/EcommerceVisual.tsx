@@ -48,7 +48,7 @@ export default function EcommerceVisual() {
           const isPulsing = !active && pulse === i;
           return (
             <g key={`${from}-${to}`}>
-              <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={isActive ? AMBER : "#45584b"} strokeWidth={isActive ? 1.6 : 1.1} />
+              <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={isActive ? AMBER : "#54426f"} strokeWidth={isActive ? 1.6 : 1.1} />
               {/* packet dot traveling along the edge */}
               {!reduced && (isActive || isPulsing) && (
                 <motion.circle
@@ -89,8 +89,8 @@ export default function EcommerceVisual() {
                 width="92"
                 height="44"
                 rx="4"
-                fill={isActive ? "#243629" : "#141f19"}
-                stroke={isActive ? AMBER : "accent" in n && n.accent ? CYAN : "#45584b"}
+                fill={isActive ? "#352651" : "#1d1430"}
+                stroke={isActive ? AMBER : "accent" in n && n.accent ? CYAN : "#54426f"}
                 strokeWidth={isActive ? 1.8 : 1.3}
                 style={{ transformOrigin: `${n.x}px ${n.y}px` }}
               />
@@ -102,7 +102,7 @@ export default function EcommerceVisual() {
                 fontWeight={700}
                 letterSpacing="2"
                 fontFamily="var(--font-jetbrains-mono), monospace"
-                fill={isActive ? AMBER : "#e4e6d8"}
+                fill={isActive ? AMBER : "#fbf3e8"}
               >
                 {n.label}
               </text>
@@ -113,7 +113,7 @@ export default function EcommerceVisual() {
                 fontSize="7"
                 letterSpacing="1.5"
                 fontFamily="var(--font-jetbrains-mono), monospace"
-                fill={isActive ? "#ff5a1f" : "#64798e"}
+                fill={isActive ? "#ff5d8f" : "#7d6f98"}
               >
                 {n.sub}
               </text>
@@ -149,6 +149,6 @@ export default function EcommerceVisual() {
   );
 }
 
-const AMBER = "#ff5a1f";
-const COBALT = "#5b78ff";
-const CYAN = "#20c7d9";
+const AMBER = "#ff5d8f";
+const COBALT = "#9b85ff";
+const CYAN = "#5fe0c0";

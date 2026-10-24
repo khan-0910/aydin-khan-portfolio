@@ -33,7 +33,7 @@ function StatusChip({ status }: { status: ProjectStatus }) {
   const pulse = solid ? {} : soon ? { opacity: [0.4, 1, 0.4] } : { opacity: [1, 0.35, 1] };
   return (
     <span
-      className={`flex items-center gap-2 border px-2.5 py-1 font-mono text-[10px] tracking-[0.25em] ${
+      className={`flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${
         solid
           ? "border-cyan/50 text-cyan"
           : soon
@@ -43,17 +43,67 @@ function StatusChip({ status }: { status: ProjectStatus }) {
     >
       <motion.span
         aria-hidden
-        className={`h-1.5 w-1.5 ${solid ? "bg-cyan" : soon ? "bg-coral" : "bg-amber"}`}
+        className={`h-2 w-2 rounded-full ${solid ? "bg-cyan" : soon ? "bg-coral" : "bg-amber"}`}
         animate={pulse}
         transition={{ duration: 1.8, repeat: solid ? 0 : Infinity, ease: "easeInOut" }}
       />
-      {status}
+      <span className="lowercase first-letter:uppercase">{status}</span>
     </span>
   );
 }
 
+/** progress bar + checklist driven by project.milestones */
+function Progress({ milestones }: { milestones: NonNullable<Project["milestones"]> }) {
+  const done = milestones.filter((m) => m.done).length;
+  const pct = Math.round((done / milestones.length) * 100);
+  return (
+    <div className="mt-6 rounded-2xl border border-line bg-panel-2 p-4">
+      <div className="flex items-baseline justify-between">
+        <TechnicalLabel className="text-paper">Progress</TechnicalLabel>
+        <span className="text-sm font-semibold text-amber">
+          {done} of {milestones.length} steps
+        </span>
+      </div>
+      <div className="mt-3 h-3 overflow-hidden rounded-full bg-line" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Project progress">
+        <motion.div
+          className="h-full rounded-full"
+          style={{ background: "linear-gradient(90deg, #ff5d8f, #6d4aff)" }}
+          initial={{ width: 0 }}
+          whileInView={{ width: `${Math.max(pct, 4)}%` }}
+          viewport={{ once: true }}
+          transition={{ type: "spring", stiffness: 90, damping: 18, delay: 0.2 }}
+        />
+      </div>
+      <ul className="mt-4 space-y-1.5">
+        {milestones.map((m, i) => (
+          <motion.li
+            key={m.label}
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.25 + i * 0.05 }}
+            className={`flex items-start gap-2.5 text-[14px] ${m.done ? "text-paper" : "text-paper-faint"}`}
+          >
+            <span
+              aria-hidden
+              className={`mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] ${
+                m.done ? "bg-cyan text-white" : "border-[1.5px] border-line-2"
+              }`}
+            >
+              {m.done ? "✓" : ""}
+            </span>
+            <span>
+              {m.label}
+              <span className="sr-only">{m.done ? " (done)" : " (to do)"}</span>
+            </span>
+          </motion.li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 const arrowButtonClass =
-  "flex h-10 w-10 items-center justify-center border border-line-2 text-paper transition-colors hover:border-amber hover:text-amber focus-visible:outline-none focus-visible:border-amber focus-visible:text-amber";
+  "flex h-10 w-10 items-center justify-center rounded-full border border-line-2 text-paper transition-colors hover:border-amber hover:text-amber focus-visible:outline-none focus-visible:border-amber focus-visible:text-amber";
 
 type ProjectPanelProps = {
   project: Project;
@@ -80,10 +130,12 @@ function ProjectPanel({ project, reduced }: ProjectPanelProps) {
 
       {/* summary side: identity + one line + case file toggle */}
       <div className="flex flex-col p-6 sm:p-8" aria-live="polite">
-        <h3 className="font-display text-3xl font-bold uppercase leading-[1.02] tracking-tight text-paper sm:text-4xl">
+        <h3 className="font-display text-3xl font-bold leading-[1.05] tracking-[-0.02em] text-paper sm:text-4xl">
           {project.name}
         </h3>
         <p className="mt-3 text-[15px] leading-relaxed text-paper-dim">{project.tagline}</p>
+
+        {project.milestones && <Progress milestones={project.milestones} />}
 
         {/* case file - compact openable panel */}
         <div className="mt-6 border-t border-line pt-5">
@@ -92,18 +144,18 @@ function ProjectPanel({ project, reduced }: ProjectPanelProps) {
             onClick={() => setCaseOpen((v) => !v)}
             aria-expanded={caseOpen}
             aria-controls={`case-file-${project.id}`}
-            className="group/case flex w-full items-center justify-between gap-4 border border-line-2 bg-graphite/40 px-4 py-3 text-left transition-colors hover:border-amber focus-visible:outline-none focus-visible:border-amber"
+            className="group/case flex w-full items-center justify-between gap-4 rounded-xl border border-line-2 bg-panel-2 px-4 py-3 text-left transition-colors hover:border-amber focus-visible:outline-none focus-visible:border-amber"
           >
             <span className="flex items-center gap-3">
               <span
                 aria-hidden
-                className={`font-mono text-[13px] text-amber transition-transform duration-300 ${caseOpen ? "rotate-90" : ""}`}
+                className={`text-[15px] font-bold text-amber transition-transform duration-300 ${caseOpen ? "rotate-90" : ""}`}
               >
                 ›
               </span>
-              <TechnicalLabel>CASE FILE</TechnicalLabel>
-              <span className="font-mono text-[10px] tracking-[0.2em] text-paper-faint transition-colors group-hover/case:text-paper-dim">
-                {caseOpen ? "CLOSE" : "OPEN"}
+              <span className="text-sm font-semibold text-paper">The full story</span>
+              <span className="text-xs text-paper-faint transition-colors group-hover/case:text-paper-dim">
+                {caseOpen ? "close" : "open"}
               </span>
             </span>
             <span
@@ -123,7 +175,7 @@ function ProjectPanel({ project, reduced }: ProjectPanelProps) {
                 transition={{ duration: reduced ? 0.15 : 0.35, ease: "easeOut" }}
                 className="overflow-hidden"
               >
-                <div className="border border-t-0 border-line-2 bg-graphite/30 px-4 py-4">
+                <div className="mt-2 rounded-xl border border-line-2 bg-panel-2 px-4 py-4">
                   <div className="space-y-4">
                     {project.sections.map((s, si) => (
                       <motion.div
@@ -149,7 +201,7 @@ function ProjectPanel({ project, reduced }: ProjectPanelProps) {
                           <TechnicalLabel>HARDWARE</TechnicalLabel>
                           <ul className="mt-1.5 space-y-1">
                             {project.hardware.map((h) => (
-                              <li key={h} className="font-mono text-[11px] tracking-[0.15em] text-paper-dim">
+                              <li key={h} className="text-[13px] text-paper-dim">
                                 {h}
                               </li>
                             ))}
@@ -161,7 +213,7 @@ function ProjectPanel({ project, reduced }: ProjectPanelProps) {
                           <TechnicalLabel>SOFTWARE</TechnicalLabel>
                           <ul className="mt-1.5 space-y-1">
                             {project.software.map((s) => (
-                              <li key={s} className="font-mono text-[11px] tracking-[0.15em] text-paper-dim">
+                              <li key={s} className="text-[13px] text-paper-dim">
                                 {s}
                               </li>
                             ))}
@@ -207,10 +259,10 @@ export default function ProjectShowcase() {
   return (
     <section id="projects" className="theme-pale relative py-20 sm:py-28" aria-label="Projects">
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
-        <SectionHeading index="04" label="SELECTED WORK" title="The project register." />
+        <SectionHeading label="Projects" title="Things I've built (and am building)." />
 
         <div
-          className="mt-10 border border-line bg-panel/50"
+          className="pop mt-10 overflow-hidden rounded-3xl bg-panel"
           role="group"
           aria-label="Project showcase"
           tabIndex={0}
@@ -226,9 +278,9 @@ export default function ProjectShowcase() {
         >
           {/* header: counter + status + arrows */}
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-3">
-            <div className="flex flex-wrap items-center gap-4 font-mono text-[11px] tracking-[0.3em] text-paper-faint">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-paper-faint">
               <span className="text-amber">
-                PROJECT {project.number} / {String(total).padStart(2, "0")}
+                <span className="font-semibold">Project {index + 1}</span> of {total}
               </span>
               <span aria-hidden className="h-px w-8 bg-line-2" />
               <span>{project.year}</span>
@@ -284,7 +336,7 @@ export default function ProjectShowcase() {
                     aria-selected={active}
                     aria-label={`Go to project ${p.number}: ${p.name}`}
                     onClick={() => goTo(i)}
-                    className={`relative border px-2.5 py-1 font-mono text-[11px] tracking-[0.2em] transition-colors focus-visible:outline-none focus-visible:border-amber ${
+                    className={`relative rounded-full border px-3 py-1 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:border-amber ${
                       active
                         ? "border-amber text-amber"
                         : "border-line-2 text-paper-faint hover:border-paper-faint hover:text-paper-dim"
@@ -294,8 +346,8 @@ export default function ProjectShowcase() {
                       <motion.span
                         aria-hidden
                         layoutId="project-tab-fill"
-                        className="absolute inset-0 bg-amber/10"
-                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="absolute inset-0 rounded-full bg-amber/12"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
                       />
                     )}
                     <span className="relative">{p.number}</span>

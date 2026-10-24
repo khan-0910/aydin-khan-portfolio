@@ -1,11 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Caveat, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/system/SmoothScroll";
+import ClickSpark from "@/components/bits/ClickSpark";
 
-const spaceGrotesk = Space_Grotesk({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-bricolage",
+  display: "swap",
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["500", "700"],
+  variable: "--font-caveat",
   display: "swap",
 });
 
@@ -53,7 +61,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#b7beae",
+  themeColor: "#ebe5ff",
   width: "device-width",
   initialScale: 1,
 };
@@ -62,10 +70,12 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${caveat.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body>
         <SmoothScroll />
-        {children}
+        <ClickSpark sparkColor={["#ff5d8f", "#6d4aff", "#5fe0c0", "#ffd36e"]} shape="star" sparkCount={10} sparkSize={10} sparkRadius={34}>
+          {children}
+        </ClickSpark>
       </body>
     </html>
   );

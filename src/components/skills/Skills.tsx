@@ -18,24 +18,24 @@ type Tool = {
 
 const TOOLS: Tool[] = [
   {
-    name: "PYTHON",
-    domain: "PROGRAMMING / PROTOTYPING",
-    level: "INTERMEDIATE",
-    levelNote: "SCRIPTS, PROJECT LOGIC, TOOLING",
+    name: "Python",
+    domain: "Programming & prototyping",
+    level: "Intermediate",
+    levelNote: "Scripts, project logic, tooling",
     segments: 12,
   },
   {
-    name: "SOLIDWORKS",
-    domain: "CAD / MECHANICAL DESIGN",
-    level: "BASIC",
-    levelNote: "PART & ASSEMBLY MODELLING",
+    name: "SolidWorks",
+    domain: "CAD & mechanical design",
+    level: "Basic",
+    levelNote: "Part & assembly modelling",
     segments: 7,
   },
   {
-    name: "JAVA",
-    domain: "PROGRAMMING",
-    level: "BASIC",
-    levelNote: "STRUCTURED PROBLEM SOLVING",
+    name: "Java",
+    domain: "Programming",
+    level: "Basic",
+    levelNote: "Structured problem solving",
     segments: 7,
   },
 ];
@@ -71,14 +71,14 @@ function DiagnosticBar({
           return (
             <motion.span
               key={i}
-              className="h-2 flex-1"
+              className="h-2.5 flex-1 rounded-full"
               style={{
                 background: filled
                   ? accent
                     ? "var(--color-amber)"
-                    : "var(--color-navy)"
+                    : "var(--color-cobalt)"
                   : "transparent",
-                boxShadow: "inset 0 0 0 1px rgba(34,50,42,0.4)",
+                boxShadow: "inset 0 0 0 1px rgba(43,33,64,0.18)",
               }}
               initial={{ opacity: 0, scaleY: 0.3 }}
               animate={
@@ -87,7 +87,7 @@ function DiagnosticBar({
                   : probing
                     ? filled
                       ? { scaleY: [1, 0.45, 1], opacity: [1, 0.55, 1] }
-                      : { boxShadow: "inset 0 0 0 1px rgba(34,50,42,0.75)" }
+                      : { boxShadow: "inset 0 0 0 1px rgba(43,33,64,0.75)" }
                     : { scaleY: 1, opacity: 1 }
               }
               // probe ripple: each cell flinches in sequence, left to right
@@ -119,33 +119,20 @@ function ToolCard({ tool, index }: { tool: Tool; index: number }) {
       transition={{ delay: index * 0.06, duration: 0.5, ease: EASE }}
       onMouseEnter={() => setProbing(true)}
       onMouseLeave={() => setProbing(false)}
-      className="group relative flex flex-col border border-line bg-panel/70 p-4 transition-colors duration-300 hover:border-line-2"
+      className="pop pop-hover group relative flex flex-col rounded-2xl bg-panel p-5"
       data-cursor="INSPECT"
     >
-      <div className="flex items-start justify-between">
-        <TechnicalLabel>{tool.domain}</TechnicalLabel>
-        <span aria-hidden className="font-mono text-[10px] text-paper-faint">
-          UNIT {String(index + 1).padStart(2, "0")}
-        </span>
-      </div>
+      <TechnicalLabel>{tool.domain}</TechnicalLabel>
 
-      <h3 className="mt-3 font-display text-xl font-bold tracking-tight text-paper">
+      <h3 className="mt-2 font-display text-2xl font-bold tracking-tight text-paper">
         {tool.name}
       </h3>
 
       <DiagnosticBar segments={tool.segments} index={index} probing={probing} />
 
       <div className="mt-3 border-t border-line pt-2.5">
-        <div className="flex items-baseline justify-between">
-          <span className="font-mono text-[11px] tracking-[0.2em] text-amber">{tool.level}</span>
-          <span
-            aria-hidden
-            className="font-mono text-[9px] tabular-nums text-paper-faint transition-colors duration-300 group-hover:text-paper-dim"
-          >
-            {tool.segments}/{TOTAL} SEG
-          </span>
-        </div>
-        <p className="mt-1 text-[11px] leading-relaxed text-paper-faint">{tool.levelNote}</p>
+        <span className="text-sm font-semibold text-amber">{tool.level}</span>
+        <p className="mt-0.5 text-[13px] leading-relaxed text-paper-faint">{tool.levelNote}</p>
       </div>
     </motion.article>
   );
@@ -155,7 +142,7 @@ export default function Skills() {
   return (
     <section id="skills" className="relative py-20 sm:py-24" aria-label="Skills and tools">
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
-        <SectionHeading index="03" label="THE TOOLBOX" title="Tools on the bench." />
+        <SectionHeading label="Skills" title="What I work with." />
 
         <div className="mt-10 grid gap-5 md:grid-cols-3 md:gap-6">
           {TOOLS.map((tool, i) => (
@@ -165,12 +152,12 @@ export default function Skills() {
         </div>
 
         {/* currently learning - compact supporting line, not a section */}
-        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border border-dashed border-line-2 bg-graphite/60 px-4 py-3">
-          <span className="flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] text-amber">
-            <span aria-hidden className="h-1.5 w-1.5 animate-blink bg-amber" />
-            CURRENTLY LEARNING
+        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-2xl border border-dashed border-line-2 px-5 py-3">
+          <span className="flex items-center gap-2 text-sm font-semibold text-amber">
+            <span aria-hidden className="h-2 w-2 animate-sys-pulse rounded-full bg-amber" />
+            Currently learning
           </span>
-          <span className="font-mono text-[11px] tracking-[0.15em] text-paper-dim">
+          <span className="text-[15px] text-paper-dim">
             JavaScript &middot; Unity / AR Foundation &middot; Korean
           </span>
         </div>

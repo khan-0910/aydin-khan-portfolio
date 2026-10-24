@@ -36,23 +36,23 @@ export default function FootballVisual({ expanded = false }: { expanded?: boolea
       <svg viewBox="0 0 800 520" className="h-auto w-full" role="img" aria-label="Football analytics pitch with player nodes and data pipeline">
         <defs>
           <linearGradient id="fb-ball" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#ff5a1f" />
-            <stop offset="100%" stopColor="#ff7657" />
+            <stop offset="0%" stopColor="#ff5d8f" />
+            <stop offset="100%" stopColor="#ff9a6b" />
           </linearGradient>
         </defs>
 
         {/* ---------- pitch ---------- */}
-        <rect x="60" y="40" width="680" height="440" fill="#1c2b23" fillOpacity="0.35" stroke="#20c7d9" strokeOpacity="0.35" strokeWidth="1.2" />
+        <rect x="60" y="40" width="680" height="440" fill="#2a1d40" fillOpacity="0.35" stroke="#5fe0c0" strokeOpacity="0.35" strokeWidth="1.2" />
         {/* halfway line + circle */}
-        <line x1="400" y1="40" x2="400" y2="480" stroke="#20c7d9" strokeOpacity="0.3" strokeWidth="1" />
-        <circle cx="400" cy="260" r="60" fill="none" stroke="#20c7d9" strokeOpacity="0.3" strokeWidth="1" />
+        <line x1="400" y1="40" x2="400" y2="480" stroke="#5fe0c0" strokeOpacity="0.3" strokeWidth="1" />
+        <circle cx="400" cy="260" r="60" fill="none" stroke="#5fe0c0" strokeOpacity="0.3" strokeWidth="1" />
         {/* boxes */}
-        <rect x="60" y="150" width="90" height="220" fill="none" stroke="#20c7d9" strokeOpacity="0.3" strokeWidth="1" />
-        <rect x="650" y="150" width="90" height="220" fill="none" stroke="#20c7d9" strokeOpacity="0.3" strokeWidth="1" />
+        <rect x="60" y="150" width="90" height="220" fill="none" stroke="#5fe0c0" strokeOpacity="0.3" strokeWidth="1" />
+        <rect x="650" y="150" width="90" height="220" fill="none" stroke="#5fe0c0" strokeOpacity="0.3" strokeWidth="1" />
         {/* pitch texture — fine grid */}
         <g opacity="0.14">
           {[120, 180, 240, 300, 360, 420].map((y) => (
-            <line key={y} x1="60" y1={y} x2="740" y2={y} stroke="#e4e6d8" strokeWidth="0.5" />
+            <line key={y} x1="60" y1={y} x2="740" y2={y} stroke="#fbf3e8" strokeWidth="0.5" />
           ))}
         </g>
 
@@ -68,8 +68,8 @@ export default function FootballVisual({ expanded = false }: { expanded?: boolea
           >
             {/* bob via transform, not the cy attribute (attribute animation renders undefined) */}
             <motion.g animate={reduced ? {} : { y: [0, -3, 0] }} transition={{ duration: 2.6 + (i % 4), repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}>
-              <circle cx={p.x} cy={p.y} r="7" fill="#5b78ff" fillOpacity="0.9" />
-              <circle cx={p.x} cy={p.y} r="11" fill="none" stroke="#5b78ff" strokeOpacity="0.35" strokeWidth="1" />
+              <circle cx={p.x} cy={p.y} r="7" fill="#9b85ff" fillOpacity="0.9" />
+              <circle cx={p.x} cy={p.y} r="11" fill="none" stroke="#9b85ff" strokeOpacity="0.35" strokeWidth="1" />
             </motion.g>
           </motion.g>
         ))}
@@ -83,8 +83,8 @@ export default function FootballVisual({ expanded = false }: { expanded?: boolea
             style={{ transformOrigin: `${p.x}px ${p.y}px` }}
           >
             <motion.g animate={reduced ? {} : { y: [0, 3, 0] }} transition={{ duration: 2.8 + (i % 4), repeat: Infinity, ease: "easeInOut", delay: i * 0.12 }}>
-              <circle cx={p.x} cy={p.y} r="7" fill="#e4e6d8" fillOpacity="0.75" />
-              <circle cx={p.x} cy={p.y} r="11" fill="none" stroke="#e4e6d8" strokeOpacity="0.3" strokeWidth="1" />
+              <circle cx={p.x} cy={p.y} r="7" fill="#fbf3e8" fillOpacity="0.75" />
+              <circle cx={p.x} cy={p.y} r="11" fill="none" stroke="#fbf3e8" strokeOpacity="0.3" strokeWidth="1" />
             </motion.g>
           </motion.g>
         ))}
@@ -93,7 +93,7 @@ export default function FootballVisual({ expanded = false }: { expanded?: boolea
         <motion.path
           d="M 340 320 Q 400 200 460 320"
           fill="none"
-          stroke="#ff5a1f"
+          stroke="#ff5d8f"
           strokeWidth="1.5"
           strokeDasharray="5 5"
           initial={{ pathLength: 0 }}
@@ -131,7 +131,7 @@ export default function FootballVisual({ expanded = false }: { expanded?: boolea
                 textAnchor="middle"
                 fontSize="10"
                 letterSpacing="3"
-                fill="#e4e6d8"
+                fill="#fbf3e8"
                 fillOpacity={0.55 + i * 0.12}
                 fontFamily="var(--font-jetbrains-mono), monospace"
                 initial={{ opacity: 0, y: 6 }}
@@ -147,7 +147,7 @@ export default function FootballVisual({ expanded = false }: { expanded?: boolea
                   y1="-4"
                   x2={238 + i * 160}
                   y2="-4"
-                  stroke="#20c7d9"
+                  stroke="#5fe0c0"
                   strokeWidth="1.2"
                   strokeDasharray="3 3"
                   className="animate-dash-flow"
@@ -168,7 +168,7 @@ export default function FootballVisual({ expanded = false }: { expanded?: boolea
           textAnchor="end"
           fontSize="9"
           letterSpacing="2"
-          fill="#ff5a1f"
+          fill="#ff5d8f"
           fontFamily="var(--font-jetbrains-mono), monospace"
           animate={reduced ? {} : { opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 2, repeat: Infinity }}

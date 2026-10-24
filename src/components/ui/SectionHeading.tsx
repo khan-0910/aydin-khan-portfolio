@@ -4,40 +4,41 @@ import { motion } from "motion/react";
 import Reveal from "./Reveal";
 
 type SectionHeadingProps = {
-  index: string;
   label: string;
   title: string;
   className?: string;
 };
 
-export default function SectionHeading({ index, label, title, className = "" }: SectionHeadingProps) {
+export default function SectionHeading({ label, title, className = "" }: SectionHeadingProps) {
   const words = title.split(" ");
 
   return (
     <div className={className}>
       <Reveal>
-        <div className="mb-3 flex items-center gap-3 font-mono text-[11px] tracking-[0.3em] text-paper-faint">
-          <span className="text-amber">{index}</span>
-          <span className="h-px w-10 bg-line-2" aria-hidden />
-          <span>{label}</span>
-        </div>
+        <span className="mb-1 inline-block -rotate-3 font-hand text-[30px] leading-none text-cobalt">
+          {label} ↴
+        </span>
       </Reveal>
-      <h2 className="font-display text-4xl font-semibold uppercase leading-[1.05] tracking-tight text-paper sm:text-5xl lg:text-6xl">
+      {/* the h2 watches the viewport: each word starts clipped by its wrapper, so it can't observe itself */}
+      <motion.h2
+        className="font-display text-5xl font-extrabold leading-[1.02] tracking-[-0.035em] text-paper sm:text-6xl lg:text-7xl"
+        initial="hidden"
+        whileInView="shown"
+        viewport={{ once: true, margin: "-40px" }}
+      >
         {words.map((word, i) => (
           <span key={i} className="inline-block overflow-hidden pb-1 align-bottom">
             <motion.span
-              className="inline-block"
-              initial={{ y: "110%" }}
-              whileInView={{ y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.06, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="inline-block origin-bottom-left"
+              variants={{ hidden: { y: "110%", rotate: 8 }, shown: { y: 0, rotate: 0 } }}
+              transition={{ delay: i * 0.06, type: "spring", stiffness: 260, damping: 22 }}
             >
-              {word}
+              {i === words.length - 1 ? <span className="marker">{word}</span> : word}
               {i < words.length - 1 ? "\u00A0" : ""}
             </motion.span>
           </span>
         ))}
-      </h2>
+      </motion.h2>
     </div>
   );
 }
