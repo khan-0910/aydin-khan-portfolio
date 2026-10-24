@@ -328,44 +328,57 @@ body {
 .doodle-ping { transform-box: fill-box; transform-origin: center; animation: ping-out 1.6s ease-out infinite; }
 .doodle-ping-late { animation-delay: 0.8s; }
 
-/* project doodle motion */
-@keyframes med-lid {
-  0%, 30%, 100% { transform: rotate(0deg); }
-  45%, 85% { transform: rotate(-24deg); }
+/* project diagram motion */
+@keyframes sch-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
 }
-@keyframes bubble-pop {
-  0%, 35% { transform: scale(0); opacity: 0; }
-  45%, 85% { transform: scale(1); opacity: 1; }
-  95%, 100% { transform: scale(0.6); opacity: 0; }
+@keyframes sch-ring {
+  from { transform: scale(0.6); opacity: 0.9; }
+  to { transform: scale(2.4); opacity: 0; }
 }
-@keyframes bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+@keyframes sch-seq {
+  0%, 14% { opacity: 1; }
+  22%, 100% { opacity: 0; }
 }
-@keyframes bar-grow {
+@keyframes sch-draw {
+  from { stroke-dashoffset: 1; }
+  55%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes sch-scroll {
+  to { transform: translateX(-60px); }
+}
+@keyframes sch-scan {
+  to { transform: translateY(216px); }
+}
+@keyframes sch-toggle {
+  0%, 35%, 100% { transform: translateX(0); }
+  45%, 85% { transform: translateX(20px); }
+}
+@keyframes sch-notify {
+  0%, 25% { transform: translateY(6px); opacity: 0; }
+  35%, 85% { transform: translateY(0); opacity: 1; }
+  95%, 100% { opacity: 0; }
+}
+@keyframes sch-bar {
   0%, 100% { transform: scaleY(0.35); }
   50% { transform: scaleY(1); }
 }
-@keyframes scan-y {
-  from { transform: translateY(0); }
-  to { transform: translateY(244px); }
+@keyframes sch-lock {
+  0%, 15% { transform: scale(1.18); opacity: 0; }
+  35%, 90% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
 }
-@keyframes float-up {
-  0%, 55% { transform: translateY(6px); opacity: 0; }
-  65% { opacity: 1; }
-  100% { transform: translateY(-18px); opacity: 0; }
-}
-@keyframes star-glow {
-  0%, 100% { opacity: 0.25; transform: scale(0.95); }
-  50% { opacity: 0.5; transform: scale(1.08); }
-}
-.med-lid { animation: med-lid 4s ease-in-out infinite; }
-.bubble-pop { animation: bubble-pop 4s ease-out infinite; }
-.doodle-float { animation: bob 3s ease-in-out infinite; }
-.bar-grow { transform-box: fill-box; transform-origin: bottom; animation: bar-grow 2.6s ease-in-out infinite; }
-.scan-y { animation: scan-y 2.5s linear infinite alternate; }
-.float-up { animation: float-up 2.6s ease-out infinite; }
-.star-glow { transform-box: fill-box; transform-origin: center; filter: blur(10px); animation: star-glow 3s ease-in-out infinite; }
+.sch-pulse { animation: sch-pulse 1.6s ease-in-out infinite; }
+.sch-ring { transform-box: fill-box; transform-origin: center; animation: sch-ring 1.8s ease-out infinite; }
+.sch-seq { opacity: 0; animation: sch-seq 4s linear infinite; }
+.sch-draw { stroke-dasharray: 1; animation: sch-draw 4s ease-in-out infinite; }
+.sch-scroll { animation: sch-scroll 1.5s linear infinite; }
+.sch-scan { animation: sch-scan 2.8s ease-in-out infinite alternate; }
+.sch-toggle { animation: sch-toggle 3s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.sch-notify { animation: sch-notify 4s ease-out infinite; }
+.sch-bar { transform-box: fill-box; transform-origin: bottom; animation: sch-bar 2.4s ease-in-out infinite; }
+.sch-lock { transform-box: fill-box; transform-origin: center; animation: sch-lock 4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
 
 .theme-pale .hatch {
   background-image: repeating-linear-gradient(
@@ -433,16 +446,20 @@ body {
   .doodle-led,
   .doodle-glow,
   .doodle-ping,
-  .med-lid,
-  .bubble-pop,
-  .doodle-float,
-  .bar-grow,
-  .scan-y,
-  .float-up,
-  .star-glow {
+  .sch-pulse,
+  .sch-ring,
+  .sch-seq,
+  .sch-draw,
+  .sch-scroll,
+  .sch-scan,
+  .sch-toggle,
+  .sch-notify,
+  .sch-bar,
+  .sch-lock {
     animation: none !important;
   }
-  .doodle-motion {
+  .doodle-motion,
+  .sch-motion {
     display: none;
   }
   html {

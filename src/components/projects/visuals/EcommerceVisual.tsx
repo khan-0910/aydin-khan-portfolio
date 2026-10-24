@@ -1,90 +1,122 @@
-import { Arrow, C, Frame, Hand, INK, ink } from "./doodle";
+import { Block, Bus, C, DIM, Frame, PANEL, Pipeline, TEXT } from "./schematic";
 
-const TILES = [
-  { bg: C.butter, item: C.lilac },
-  { bg: C.mint, item: C.peach },
-  { bg: C.sky, item: C.pink },
-];
+const CURSOR = "M310 322 C 280 300, 230 270, 186 248";
 
 export default function EcommerceVisual() {
   return (
     <Frame
-      label="Doodle of the Python shop: a browser with three products, a cursor adding one to the cart, a login card and a users database"
-      caption="grade 12 python shop: register, login, cart, checkout"
+      fig="FIG.02"
+      title="APP ARCHITECTURE"
+      status="BUILT"
+      label="Architecture of the Python shop: a storefront wireframe with three products and a cart, an auth service for login and register, and a password database"
+      caption="Storefront, auth and a password database: the full register → cart → checkout loop."
     >
-      {/* browser window */}
-      <rect x="30" y="30" width="380" height="290" rx="14" fill={C.cream} {...ink} />
-      <path d="M30 66 V44 a14 14 0 0 1 14 -14 H396 a14 14 0 0 1 14 14 V66 Z" fill={C.pink} {...ink} />
-      {[52, 70, 88].map((x) => (
-        <circle key={x} cx={x} cy="48" r="5" fill={C.cream} {...ink} strokeWidth={2} />
-      ))}
-      <rect x="110" y="38" width="200" height="20" rx="10" fill={C.cream} {...ink} strokeWidth={2} />
-      <text x="210" y="53" textAnchor="middle" fontSize="12" fontWeight={700} fill={INK} fontFamily="ui-monospace, monospace">
-        my-shop.py
-      </text>
+      <Bus d="M350 100 H388" color={C.lilac} />
+      <Bus d="M485 148 V162" color={C.mint} count={1} dur={1} />
+      <Bus d="M350 240 H388" color={C.mint} dur={2.2} />
 
-      {/* cart + "+1" */}
-      <path d="M362 40 h6 l5 16 h16 l4 -11 h-22" fill="none" stroke={INK} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="376" cy="60" r="2.5" fill={INK} />
-      <circle cx="388" cy="60" r="2.5" fill={INK} />
-      <text x="396" y="40" className="float-up font-hand" fontSize="20" fontWeight={700} fill={C.hot}>
-        +1
-      </text>
-
-      {/* product tiles */}
-      {TILES.map((t, i) => {
-        const x = 50 + i * 120;
-        return (
-          <g key={i}>
-            <rect x={x} y="84" width="100" height="150" rx="10" fill={t.bg} {...ink} />
-            <circle cx={x + 50} cy="130" r="24" fill={t.item} {...ink} />
-            <rect x={x + 18} y="166" width="64" height="8" rx="4" fill={INK} opacity="0.75" />
-            <rect x={x + 30} y="180" width="40" height="8" rx="4" fill={INK} opacity="0.35" />
-            <rect x={x + 18} y="200" width="64" height="24" rx="12" fill={C.hot} {...ink} strokeWidth={2} />
-            <text x={x + 50} y="217" textAnchor="middle" className="font-hand" fontSize="18" fontWeight={700} fill={C.cream}>
-              add
-            </text>
-          </g>
-        );
-      })}
-
-      {/* checkout bar */}
-      <rect x="50" y="250" width="340" height="50" rx="12" fill={C.lilac} {...ink} />
-      <Hand x={70} y={282} color={INK}>checkout →</Hand>
-      <rect x="290" y="262" width="84" height="26" rx="13" fill={C.cream} {...ink} strokeWidth={2} />
-      <text x="332" y="280" textAnchor="middle" className="font-hand" fontSize="18" fontWeight={700} fill={INK}>
-        pay ✓
-      </text>
-
-      {/* cursor that keeps clicking "add" on the middle product */}
-      <g>
-        <path d="M0 0 L0 22 L6 16 L11 27 L15 25 L10 14 L18 14 Z" fill={C.cream} stroke={INK} strokeWidth="2.5" strokeLinejoin="round">
-          <animateMotion dur="2.6s" repeatCount="indefinite" path="M330 330 C 300 300, 250 250, 222 210" keyPoints="0;1;1" keyTimes="0;0.6;1" calcMode="linear" />
-        </path>
-      </g>
-
-      {/* login card */}
-      <g transform="rotate(3 510 100)">
-        <rect x="440" y="36" width="140" height="124" rx="12" fill={C.lilac} {...ink} />
-        <Hand x={456} y={64} color={INK}>login</Hand>
-        <rect x="456" y="76" width="108" height="18" rx="6" fill={C.cream} {...ink} strokeWidth={2} />
-        <rect x="456" y="102" width="108" height="18" rx="6" fill={C.cream} {...ink} strokeWidth={2} />
-        <text x="462" y="115" fontSize="12" fill={INK} fontFamily="ui-monospace, monospace">••••••</text>
-        <rect x="456" y="128" width="50" height="22" rx="11" fill={C.hot} {...ink} strokeWidth={2} />
-        <text x="481" y="144" textAnchor="middle" className="font-hand" fontSize="16" fontWeight={700} fill={C.cream}>
-          go
+      {/* storefront wireframe */}
+      <Block x={20} y={52} w={330} h={260} color={C.pink} title="STOREFRONT" sub="shop.py">
+        <rect x="32" y="74" width="306" height="20" rx="4" fill="none" stroke={C.pink} strokeOpacity="0.35" />
+        <text x="42" y="87" fontSize="8" fill={DIM}>
+          /shop
         </text>
-      </g>
+        {/* cart + badge */}
+        <path d="M300 79 h4 l4 10 h14 l3 -7 h-19" fill="none" stroke={TEXT} strokeWidth="1.3" strokeLinejoin="round" />
+        <circle cx="330" cy="80" r="5" fill={C.pink} />
+        <circle cx="330" cy="80" r="5" fill="none" stroke={C.pink} className="sch-ring" />
 
-      {/* users database */}
-      <Arrow d="M512 166 V214" />
-      <Arrow d="M392 272 C 420 272, 430 268, 452 262" />
-      <path d="M460 230 V300 A50 14 0 0 0 560 300 V230" fill={C.peach} {...ink} />
-      <ellipse cx="510" cy="230" rx="50" ry="14" fill={C.butter} {...ink} />
-      <text x="510" y="275" textAnchor="middle" fontSize="13" fontWeight={800} fill={INK} fontFamily="ui-monospace, monospace">
-        users.db
-      </text>
-      <Hand x={510} y={346} anchor="middle" color={C.butter} rotate={-3}>passwords live here</Hand>
+        {[0, 1, 2].map((i) => {
+          const x = 32 + i * 104;
+          return (
+            <g key={i}>
+              <rect x={x} y="104" width="94" height="170" rx="6" fill="none" stroke={C.pink} strokeOpacity="0.35" />
+              {/* image placeholder, wireframe style */}
+              <rect x={x + 10} y="114" width="74" height="64" rx="3" fill={C.pink} fillOpacity="0.06" stroke={C.pink} strokeOpacity="0.3" />
+              <path d={`M${x + 10} 114 L${x + 84} 178 M${x + 84} 114 L${x + 10} 178`} stroke={C.pink} strokeOpacity="0.2" />
+              <rect x={x + 10} y="190" width="60" height="5" rx="2.5" fill={TEXT} fillOpacity="0.5" />
+              <rect x={x + 10} y="201" width="38" height="5" rx="2.5" fill={DIM} fillOpacity="0.4" />
+              <rect x={x + 10} y="213" width="26" height="5" rx="2.5" fill={C.butter} fillOpacity="0.6" />
+              <rect x={x + 10} y="240" width="74" height="22" rx="4" fill={C.pink} fillOpacity="0.15" stroke={C.pink} />
+              <text x={x + 47} y="254" textAnchor="middle" fontSize="8.5" letterSpacing="1" fill={TEXT}>
+                ADD
+              </text>
+            </g>
+          );
+        })}
+        <circle cx="183" cy="251" r="9" fill="none" stroke={C.pink} className="sch-ring" />
+
+        <rect x="32" y="284" width="306" height="20" rx="4" fill="none" stroke={C.pink} strokeOpacity="0.35" />
+        <text x="42" y="297" fontSize="8" fill={DIM}>
+          CART · 1 ITEM
+        </text>
+        <rect x="270" y="287" width="64" height="14" rx="3" fill={C.pink} fillOpacity="0.2" stroke={C.pink} />
+        <text x="302" y="297" textAnchor="middle" fontSize="7.5" letterSpacing="0.8" fill={TEXT}>
+          CHECKOUT
+        </text>
+      </Block>
+
+      {/* cursor clicking "add" on the middle product */}
+      <path d="M0 0 L0 15 L4 11 L7 18 L10 17 L7 10 L12 10 Z" fill={TEXT} stroke={PANEL} strokeWidth="1" className="sch-motion">
+        <animateMotion dur="2.6s" repeatCount="indefinite" path={CURSOR} keyPoints="0;1;1" keyTimes="0;0.6;1" calcMode="linear" />
+      </path>
+
+      {/* auth */}
+      <Block x={390} y={52} w={190} h={96} color={C.lilac} title="AUTH" sub="LOGIN / REGISTER">
+        <rect x="402" y="74" width="166" height="18" rx="4" fill="none" stroke={C.lilac} strokeOpacity="0.4" />
+        <text x="410" y="86" fontSize="8" fill={DIM}>
+          username
+        </text>
+        <rect x="402" y="98" width="166" height="18" rx="4" fill="none" stroke={C.lilac} strokeOpacity="0.4" />
+        <text x="410" y="111" fontSize="9" letterSpacing="1" fill={TEXT}>
+          ••••••••
+        </text>
+        <rect x="462" y="102" width="1.5" height="10" fill={TEXT} className="sch-pulse" />
+        <rect x="402" y="124" width="60" height="16" rx="3" fill={C.lilac} fillOpacity="0.2" stroke={C.lilac} />
+        <text x="432" y="135" textAnchor="middle" fontSize="7.5" letterSpacing="0.8" fill={TEXT}>
+          LOG IN
+        </text>
+        <text x="568" y="135" textAnchor="end" fontSize="7.5" letterSpacing="0.8" fill={C.mint} className="sch-notify">
+          SESSION OK
+        </text>
+      </Block>
+
+      {/* password database: rows get scanned in turn */}
+      <Block x={390} y={164} w={190} h={148} color={C.mint} title="users.db" sub="PASSWORD DB">
+        <rect x="402" y="184" width="166" height="16" rx="3" fill={C.mint} fillOpacity="0.14" />
+        {["ID", "USER", "HASH"].map((h, i) => (
+          <text key={h} x={[410, 436, 498][i]} y="195" fontSize="7.5" letterSpacing="0.8" fill={C.mint}>
+            {h}
+          </text>
+        ))}
+        {[0, 1, 2, 3, 4].map((r) => {
+          const y = 206 + r * 20;
+          return (
+            <g key={r}>
+              <rect
+                x="402"
+                y={y}
+                width="166"
+                height="16"
+                rx="3"
+                fill={C.mint}
+                fillOpacity="0.18"
+                className="sch-seq"
+                style={{ animationDuration: "5s", animationDelay: `${r}s` }}
+              />
+              <rect x="410" y={y + 6} width="12" height="4" rx="2" fill={DIM} fillOpacity="0.5" />
+              <rect x="436" y={y + 6} width={36 + ((r * 7) % 16)} height="4" rx="2" fill={TEXT} fillOpacity="0.45" />
+              <rect x="498" y={y + 6} width="62" height="4" rx="2" fill={DIM} fillOpacity="0.3" />
+            </g>
+          );
+        })}
+      </Block>
+
+      <Pipeline
+        y={334}
+        items={["USER", "LOGIN", "PRODUCT", "CART", "CHECKOUT", "DATABASE"]}
+        colors={[C.pink, C.lilac, C.sky, C.butter, C.peach, C.mint]}
+      />
     </Frame>
   );
 }

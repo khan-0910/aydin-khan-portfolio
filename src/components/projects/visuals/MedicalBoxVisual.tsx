@@ -1,85 +1,132 @@
-import { Arrow, C, Frame, Hand, INK, ink } from "./doodle";
+import { Block, Bus, C, DIM, Frame, PANEL, Pipeline, TEXT } from "./schematic";
 
-const DAYS = ["M", "T", "W", "T", "F", "S", "S"];
-const PILLS = [C.pink, C.sky, C.butter, C.mint, C.peach, C.lilac, C.pink];
-const TODAY = 3;
+const DAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+
+// alarm line trace: one 60px pattern repeated, scrolled left by one period
+const WAVE =
+  "M0 28" +
+  Array.from({ length: 8 })
+    .map((_, i) => {
+      const x = i * 60;
+      return ` H${x + 20} V4 H${x + 35} V28 H${x + 42} V4 H${x + 50} V28 H${x + 60}`;
+    })
+    .join("");
 
 export default function MedicalBoxVisual() {
   return (
     <Frame
-      label="Doodle of the automatic medical box: a 7-day pill box with a lid that opens, an ESP32, a buzzer and a phone getting a caretaker alert"
-      caption="pill box + ESP32 + buzzer + an app that pings the caretaker"
+      fig="FIG.01"
+      title="SYSTEM BLOCK DIAGRAM"
+      status="BUILT"
+      label="System diagram of the automatic medical box: a 7-day enclosure feeding an ESP32, which drives switches, an alarm and a caretaker app notification"
+      caption="Enclosure → ESP32 → switches → alarm, with a push alert to the caretaker."
     >
-      {/* wire: box -> ESP32 */}
-      <path d="M360 260 C 380 260, 380 262, 400 262" fill="none" stroke={C.hot} strokeWidth="4" strokeLinecap="round" />
-      <circle r="5" fill={C.butter} className="doodle-motion">
-        <animateMotion dur="1.4s" repeatCount="indefinite" path="M360 260 C 380 260, 380 262, 400 262" />
-      </circle>
+      <defs>
+        <clipPath id="sch-scope-01">
+          <rect x="32" y="228" width="366" height="72" />
+        </clipPath>
+      </defs>
 
-      {/* 7-day pill box */}
-      <rect x="40" y="200" width="320" height="120" rx="16" fill={C.lilac} {...ink} />
-      {DAYS.map((d, i) => (
-        <g key={i}>
-          <rect
-            x={54 + i * 43}
-            y="214"
-            width="36"
-            height="92"
-            rx="9"
-            fill={i === TODAY ? C.hot : C.cream}
-            className={i === TODAY ? "doodle-led" : undefined}
-            {...ink}
-            strokeWidth={2.5}
-          />
-          <circle cx={72 + i * 43} cy="270" r="8" fill={PILLS[i]} {...ink} strokeWidth={2} />
-          <circle cx={72 + i * 43} cy="290" r="6" fill={PILLS[(i + 2) % 7]} {...ink} strokeWidth={2} />
-          <text x={72 + i * 43} y="243" textAnchor="middle" className="font-hand" fontSize="22" fontWeight={700} fill={INK}>
-            {d}
-          </text>
-        </g>
-      ))}
-      {/* lid hinged at the back-left, flips open every few seconds */}
-      <g className="med-lid" style={{ transformOrigin: "40px 200px", transformBox: "view-box" }}>
-        <rect x="40" y="168" width="320" height="34" rx="14" fill={C.pink} {...ink} />
-        <rect x="180" y="178" width="40" height="12" rx="6" fill={C.cream} {...ink} strokeWidth={2} />
-      </g>
-      <Hand x={70} y={352} rotate={-2}>today&apos;s slot lights up ↑</Hand>
+      {/* buses first so blocks sit on top */}
+      <Bus d="M250 122 H298" color={C.pink} />
+      <Bus d="M410 100 H430 V84 H448" color={C.butter} />
+      <Bus d="M410 144 H430 V160 H448" color={C.peach} />
+      <Bus d="M380 172 V188 H430 V258 H448" color={C.sky} dashed dur={2.4} />
+      <Bus d="M330 172 V202" color={C.lilac} count={1} dur={1.2} />
+
+      {/* enclosure: today's slot walks across the week */}
+      <Block x={20} y={52} w={230} h={140} color={C.pink} title="ENCLOSURE" sub="7-DAY">
+        {DAYS.map((d, i) => {
+          const x = 32 + i * 30;
+          return (
+            <g key={d}>
+              <rect x={x} y="80" width="26" height="70" rx="4" fill="none" stroke={C.pink} strokeOpacity="0.45" />
+              <rect
+                x={x}
+                y="80"
+                width="26"
+                height="70"
+                rx="4"
+                fill={C.pink}
+                fillOpacity="0.3"
+                stroke={C.pink}
+                className="sch-seq"
+                style={{ animationDuration: "7s", animationDelay: `${i}s` }}
+              />
+              <circle cx={x + 13} cy="106" r="4" fill={C.pink} fillOpacity="0.7" />
+              <circle cx={x + 13} cy="124" r="3" fill={C.pink} fillOpacity="0.4" />
+              <text x={x + 13} y="166" textAnchor="middle" fontSize="7.5" fill={DIM}>
+                {d}
+              </text>
+            </g>
+          );
+        })}
+      </Block>
 
       {/* ESP32 */}
-      <rect x="400" y="228" width="120" height="74" rx="10" fill={C.mint} {...ink} />
-      {Array.from({ length: 8 }).map((_, i) => (
-        <rect key={i} x={410 + i * 13} y="292" width="6" height="14" rx="2" fill={C.butter} {...ink} strokeWidth={1.5} />
-      ))}
-      <rect x="425" y="242" width="70" height="36" rx="5" fill={C.cream} {...ink} strokeWidth={2.5} />
-      <text x="460" y="267" textAnchor="middle" fontSize="15" fontWeight={800} fill={INK} fontFamily="ui-monospace, monospace">
-        ESP32
-      </text>
-      <Hand x={530} y={290} size={20}>brains</Hand>
-
-      {/* buzzer + sound waves */}
-      <circle cx="445" cy="170" r="22" fill={C.peach} {...ink} />
-      <circle cx="445" cy="170" r="7" fill={INK} />
-      <path d="M445 192 V228" stroke={INK} strokeWidth="3" />
-      <g transform="rotate(90 480 170)">
-        <path className="doodle-ping" d="M462 168 Q 480 156 498 168" fill="none" stroke={C.butter} strokeWidth="3" strokeLinecap="round" />
-        <path className="doodle-ping doodle-ping-late" d="M462 168 Q 480 156 498 168" fill="none" stroke={C.butter} strokeWidth="3" strokeLinecap="round" />
-      </g>
-      <Hand x={372} y={140} rotate={-6} color={C.butter}>beep beep!</Hand>
-
-      {/* caretaker's phone */}
-      <Arrow d="M520 228 C 545 200, 545 180, 540 158" dashed />
-      <rect x="490" y="24" width="90" height="140" rx="16" fill={C.cream} {...ink} />
-      <rect x="500" y="40" width="70" height="104" rx="6" fill={C.sky} stroke={INK} strokeWidth={2} />
-      <g className="bubble-pop" style={{ transformOrigin: "505px 92px", transformBox: "view-box" }}>
-        <rect x="504" y="62" width="62" height="34" rx="10" fill={C.hot} {...ink} strokeWidth={2} />
-        <text x="535" y="78" textAnchor="middle" className="font-hand" fontSize="13" fontWeight={700} fill={C.cream}>
-          time for
+      <Block x={300} y={72} w={110} h={100} color={C.mint} title="ESP32" sub="MCU">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <g key={i} stroke={C.mint} strokeOpacity="0.6">
+            <line x1="318" y1={108 + i * 9} x2="326" y2={108 + i * 9} />
+            <line x1="384" y1={108 + i * 9} x2="392" y2={108 + i * 9} />
+          </g>
+        ))}
+        <rect x="326" y="100" width="58" height="54" rx="4" fill={PANEL} stroke={C.mint} />
+        <text x="355" y="131" textAnchor="middle" fontSize="8" fill={TEXT}>
+          WROOM
         </text>
-        <text x="535" y="91" textAnchor="middle" className="font-hand" fontSize="13" fontWeight={700} fill={C.cream}>
-          meds!
+        <circle cx="376" cy="108" r="2.5" fill={C.mint} className="sch-pulse" />
+      </Block>
+
+      {/* switches */}
+      <Block x={450} y={52} w={130} h={64} color={C.butter} title="SWITCHES">
+        {[0, 1].map((i) => (
+          <g key={i}>
+            <rect x={464 + i * 54} y="82" width="38" height="18" rx="9" fill="none" stroke={C.butter} strokeOpacity="0.6" />
+            <circle cx={473 + i * 54} cy="91" r="5.5" fill={C.butter} className="sch-toggle" style={{ animationDelay: `${i * 1.5}s` }} />
+          </g>
+        ))}
+      </Block>
+
+      {/* alarm */}
+      <Block x={450} y={128} w={130} h={64} color={C.peach} title="ALARM">
+        <circle cx="478" cy="168" r="10" fill="none" stroke={C.peach} />
+        <circle cx="478" cy="168" r="3" fill={C.peach} />
+        <circle cx="478" cy="168" r="10" fill="none" stroke={C.peach} className="sch-ring" />
+        <circle cx="478" cy="168" r="10" fill="none" stroke={C.peach} className="sch-ring" style={{ animationDelay: "0.9s" }} />
+        <text x="500" y="171" fontSize="8" letterSpacing="0.8" fill={DIM}>
+          BUZZER
         </text>
-      </g>
-      <Hand x={480} y={18} size={20} anchor="end">caretaker&apos;s phone</Hand>
+      </Block>
+
+      {/* caretaker app */}
+      <Block x={450} y={204} w={130} h={108} color={C.sky} title="CARETAKER APP">
+        <g className="sch-notify">
+          <rect x="462" y="226" width="106" height="38" rx="6" fill={C.sky} fillOpacity="0.14" stroke={C.sky} />
+          <text x="472" y="242" fontSize="9" fill={TEXT}>
+            Dose due
+          </text>
+          <text x="472" y="256" fontSize="7.5" fill={DIM}>
+            box · today&apos;s slot
+          </text>
+        </g>
+        <rect x="462" y="276" width="80" height="5" rx="2.5" fill={DIM} fillOpacity="0.35" />
+        <rect x="462" y="288" width="56" height="5" rx="2.5" fill={DIM} fillOpacity="0.2" />
+      </Block>
+
+      {/* alarm line scope */}
+      <Block x={20} y={204} w={390} h={108} color={C.lilac} title="ALARM LINE" sub="DIGITAL OUT">
+        {[240, 264, 288].map((y) => (
+          <line key={y} x1="32" y1={y} x2="398" y2={y} stroke={TEXT} strokeOpacity="0.06" />
+        ))}
+        <g clipPath="url(#sch-scope-01)">
+          <g transform="translate(32 248)">
+            <path d={WAVE} fill="none" stroke={C.lilac} strokeWidth="1.8" strokeLinejoin="round" className="sch-scroll" />
+          </g>
+        </g>
+      </Block>
+
+      <Pipeline y={334} items={["CASE", "CONTROLLER", "SWITCHES", "ALERT"]} colors={[C.pink, C.mint, C.butter, C.peach]} />
     </Frame>
   );
 }
