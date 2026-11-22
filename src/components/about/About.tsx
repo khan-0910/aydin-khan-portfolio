@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import TechnicalLabel from "@/components/ui/TechnicalLabel";
+import { DoodleSlot, MechanicalDoodle } from "@/components/ui/MarginDoodles";
 
 const TRAITS: Array<{ label: string; note: string; bg: string }> = [
   { label: "Computers", note: "code, tools, systems", bg: "#ffd6e5" },
@@ -36,6 +37,9 @@ const LANGUAGES = [
 export default function About() {
   return (
     <section id="about" className="relative py-20 sm:py-24" aria-label="About Aydin Khan">
+      <DoodleSlot className="left-8 bottom-24">
+        <MechanicalDoodle />
+      </DoodleSlot>
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
         <SectionHeading label="About me" title="Curious about how things work." />
 

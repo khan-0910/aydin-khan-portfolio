@@ -328,6 +328,27 @@ body {
 .doodle-ping { transform-box: fill-box; transform-origin: center; animation: ping-out 1.6s ease-out infinite; }
 .doodle-ping-late { animation-delay: 0.8s; }
 
+/* margin doodles: gears, bars, cursor, ball */
+@keyframes doodle-turn { to { transform: rotate(360deg); } }
+@keyframes doodle-grow {
+  0%, 100% { transform: scaleY(0.55); }
+  50% { transform: scaleY(1); }
+}
+@keyframes doodle-hop {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-26px); }
+  55% { transform: translateY(-26px); }
+}
+@keyframes doodle-cursor {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.doodle-gear { transform-box: fill-box; transform-origin: center; animation: doodle-turn 6s linear infinite; }
+.doodle-gear-rev { animation-direction: reverse; animation-duration: 4.5s; }
+.doodle-bar { transform-box: fill-box; transform-origin: bottom; animation: doodle-grow 2.6s ease-in-out infinite; }
+.doodle-hop { animation: doodle-hop 1.4s cubic-bezier(0.3, 0, 0.3, 1) infinite; }
+.doodle-cursor { animation: doodle-cursor 1s steps(1) infinite; }
+
 /* project diagram motion */
 @keyframes sch-pulse {
   0%, 100% { opacity: 0.35; }
@@ -446,6 +467,10 @@ body {
   .doodle-led,
   .doodle-glow,
   .doodle-ping,
+  .doodle-gear,
+  .doodle-bar,
+  .doodle-hop,
+  .doodle-cursor,
   .sch-pulse,
   .sch-ring,
   .sch-seq,

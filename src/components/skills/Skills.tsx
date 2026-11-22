@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import TechnicalLabel from "@/components/ui/TechnicalLabel";
+import { DoodleSlot, ElectricalDoodle } from "@/components/ui/MarginDoodles";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -141,6 +142,9 @@ function ToolCard({ tool, index }: { tool: Tool; index: number }) {
 export default function Skills() {
   return (
     <section id="skills" className="relative py-20 sm:py-24" aria-label="Skills and tools">
+      <DoodleSlot className="right-8 -top-28">
+        <ElectricalDoodle />
+      </DoodleSlot>
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
         <SectionHeading label="Skills" title="What I work with." />
 

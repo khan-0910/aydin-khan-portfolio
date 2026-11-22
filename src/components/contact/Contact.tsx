@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import MagneticButton from "@/components/ui/MagneticButton";
 import TechnicalLabel from "@/components/ui/TechnicalLabel";
+import { DoodleSlot, CodeDoodle } from "@/components/ui/MarginDoodles";
 
 const CHANNELS = [
   { label: "EMAIL", value: "aydin.khan2025@vitstudent.ac.in", href: "mailto:aydin.khan2025@vitstudent.ac.in" },
@@ -12,6 +13,9 @@ const CHANNELS = [
 export default function Contact() {
   return (
     <section id="contact" className="theme-dark relative overflow-hidden pt-20 sm:pt-28" aria-label="Contact">
+      <DoodleSlot className="right-12 bottom-36">
+        <CodeDoodle />
+      </DoodleSlot>
       {/* backdrop grid + sketch */}
       <div aria-hidden className="absolute inset-0">
         <div className="blueprint-bg absolute inset-0 opacity-60" />

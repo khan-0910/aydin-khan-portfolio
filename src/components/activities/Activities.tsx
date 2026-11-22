@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import TechnicalLabel from "@/components/ui/TechnicalLabel";
+import { DoodleSlot, FootballDoodle } from "@/components/ui/MarginDoodles";
 
 type Entry = {
   year: string;
@@ -70,6 +71,9 @@ export default function Activities() {
       className="theme-mat bg-mint relative py-20 sm:py-24"
       aria-label="Leadership and activities"
     >
+      <DoodleSlot className="right-12 top-4">
+        <FootballDoodle />
+      </DoodleSlot>
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10">
         <SectionHeading label="Outside class" title="Off the bench, on the pitch." />
 

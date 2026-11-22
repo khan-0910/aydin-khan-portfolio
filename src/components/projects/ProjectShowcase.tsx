@@ -20,6 +20,7 @@ import {
   TidelineVisual,
 } from "./visuals/StudioVisuals";
 import FeaturedProject from "./FeaturedProject";
+import { DoodleSlot, DataDoodle } from "@/components/ui/MarginDoodles";
 
 /* Direct component references - statically analyzable client references. */
 function pickVisual(id: Project["visual"]): ComponentType {
@@ -298,6 +299,9 @@ export default function ProjectShowcase() {
 
   return (
     <section id="projects" className="theme-pale relative py-20 sm:py-28" aria-label="Projects">
+      <DoodleSlot className="right-8 top-8">
+        <DataDoodle />
+      </DoodleSlot>
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
         <SectionHeading label="Projects" title="Things I've built (and am building)." />
 
