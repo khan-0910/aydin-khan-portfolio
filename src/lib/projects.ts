@@ -201,7 +201,10 @@ const ALL: Project[] = [
     hardware: [],
     software: ["REACT 19 · VITE · TYPESCRIPT", "GSAP SCROLLTRIGGER · FLIP", "LENIS · REACT BITS", "TAILWIND CSS 4", "WEB CRYPTO PBKDF2"],
     visual: "holofoil",
-    links: [{ label: "REPO", href: "https://github.com/khan-0910/holofoil" }],
+    links: [
+      { label: "Visit the shop", href: "https://khan-0910.github.io/holofoil/" },
+      { label: "REPO", href: "https://github.com/khan-0910/holofoil" },
+    ],
     sections: [
       {
         heading: "PROBLEM",
