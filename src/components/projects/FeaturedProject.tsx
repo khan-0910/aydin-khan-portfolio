@@ -41,7 +41,7 @@ export default function FeaturedProject() {
               </span>
               Live now
             </span>
-            <span className="text-sm text-paper-faint">The flagship · used by a real organisation</span>
+            <span className="text-sm text-paper-faint">My biggest project, and the only one real people use right now</span>
           </div>
 
           <h3

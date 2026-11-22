@@ -1,6 +1,6 @@
 import type { Project } from "./projects";
 
-/** The flagship: the only project serving real users right now. */
+/** My biggest project, and the only one real people use right now. */
 export const FEATURED: Project = {
   id: "apta",
   number: "LIVE",
@@ -8,13 +8,13 @@ export const FEATURED: Project = {
   category: "EDUCATION & SOCIAL WELFARE PLATFORM",
   year: "Live",
   status: "LIVE",
-  tagline: "A bilingual scholarship and welfare platform for Salem, Tamil Nadu, used by students, staff and admins.",
+  tagline: "A scholarship and welfare website for APTA in Salem, in English and Tamil, used by real students, staff and admins.",
   description:
-    "APTA Empowers runs education funding end to end for a real organisation: students apply in English or Tamil, staff review, admins approve and fund, and every rupee lands in a ledger with reports behind it.",
+    "APTA used to handle scholarship applications on paper, in two languages, and families had no way to check where their application was. I built the website they use now: students apply online, staff review the applications, and admins approve and fund them, with every rupee tracked.",
   hardware: [],
   software: [
-    "React, Vite and strict TypeScript",
-    "Supabase: Postgres, Auth, RLS, Storage, Realtime",
+    "React, Vite and TypeScript",
+    "Supabase (Postgres, Auth, RLS, Storage, Realtime)",
     "Tailwind CSS 4, GSAP and Recharts",
     "GitHub Pages and Vercel",
   ],
@@ -25,30 +25,30 @@ export const FEATURED: Project = {
   ],
   sections: [
     {
-      heading: "PROBLEM",
+      heading: "WHY I MADE IT",
       body: [
-        "Scholarship applications in Salem were paper forms in two languages, tracked by hand. Families couldn't see where an application stood.",
+        "Applications were paper forms tracked by hand, so it was hard for anyone to know what stage an application was at.",
       ],
     },
     {
-      heading: "BUILD",
+      heading: "WHAT I BUILT",
       body: [
-        "An 8-section application form that matches the physical Salem form, with Tamil beside every field, Aadhaar and +91 phone masks, and the bilingual Zakkath undertaking.",
-        "Three roles: students apply and track progress, staff review, and admins approve, fund and create staff accounts.",
-        "Beneficiaries, partners, a funding ledger, progress reports and file uploads, across 7 tables.",
+        "An online version of their 8-section paper form, with Tamil next to every field and checks for Aadhaar and phone numbers.",
+        "Three kinds of users: students apply and track progress, staff review, and admins approve, fund and add staff.",
+        "Pages for beneficiaries, partners, a funding ledger, progress reports and file uploads.",
       ],
     },
     {
-      heading: "SYSTEM",
+      heading: "HOW IT WORKS",
       body: [
-        "Supabase Auth with row level security on every table. Realtime updates show new and edited records in every open browser, with edit-conflict detection.",
-        "Without Supabase it runs fully on the device's local storage, with the same behaviour.",
-        "A keep-alive job and backups keep the free tier awake and recoverable.",
+        "It's React with Supabase. Every table has row level security, so each person only sees what they're allowed to.",
+        "Changes show up live for everyone, and it warns you if two people edit the same record.",
+        "A small scheduled job keeps the free Supabase project awake, and I set up backups.",
       ],
     },
     {
-      heading: "CURRENT STATE",
-      body: ["Live on GitHub Pages, with a Vercel deployment ready. It ships with no mock data: every record in it is real."],
+      heading: "WHERE IT'S AT",
+      body: ["It's live on GitHub Pages, with a Vercel version ready too. There's no fake data in it: everything is real."],
     },
   ],
 };

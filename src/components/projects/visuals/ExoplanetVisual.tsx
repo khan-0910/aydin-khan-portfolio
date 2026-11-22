@@ -20,11 +20,11 @@ const SAMPLES = Array.from({ length: 40 }).map((_, i) => {
 export default function ExoplanetVisual() {
   return (
     <Frame
-      fig="FIG.11"
+      fig="FIG.10"
       title="TRANSIT METHOD"
-      status="STARTING SOON"
+      status="BUILT"
       label="Transit method diagram for the exoplanet project: a planet crossing in front of its star, and the light curve dipping while it does"
-      caption="A planet crossing its star dims the light a little. Find the dips, then let a model flag candidates."
+      caption="A planet crossing its star dims the light a little. EXOVET finds the dips, then a Transformer decides what made them."
     >
       <defs>
         <radialGradient id="sch-star">

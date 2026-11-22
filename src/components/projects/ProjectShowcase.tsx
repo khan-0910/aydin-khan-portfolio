@@ -304,7 +304,7 @@ export default function ProjectShowcase() {
         <FeaturedProject />
 
         <p className="mt-16 text-sm text-paper-faint">
-          <span className="font-semibold text-amber">Everything else on the bench</span> · {total} projects · use ← → to flip through
+          <span className="font-semibold text-amber">My other projects</span> · {total} of them · use ← → to flip through
         </p>
 
         <div
