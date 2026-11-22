@@ -15,7 +15,7 @@ const WAVE =
 export default function MedicalBoxVisual() {
   return (
     <Frame
-      fig="FIG.01"
+      fig="FIG.09"
       title="SYSTEM BLOCK DIAGRAM"
       status="BUILT"
       label="System diagram of the automatic medical box: a 7-day enclosure feeding an ESP32, which drives switches, an alarm and a caretaker app notification"

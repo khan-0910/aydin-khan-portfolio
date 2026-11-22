@@ -5,7 +5,7 @@ const CURSOR = "M310 322 C 280 300, 230 270, 186 248";
 export default function EcommerceVisual() {
   return (
     <Frame
-      fig="FIG.02"
+      fig="FIG.10"
       title="APP ARCHITECTURE"
       status="BUILT"
       label="Architecture of the Python shop: a storefront wireframe with three products and a cart, an auth service for login and register, and a password database"

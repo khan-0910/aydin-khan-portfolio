@@ -54,7 +54,7 @@ function PartIcon({ i, x, y, c }: { i: number; x: number; y: number; c: string }
 export default function ArduinoVisual() {
   return (
     <Frame
-      fig="FIG.05"
+      fig="FIG.08"
       title="AR OVERLAY"
       status="IN PROGRESS"
       label="AR tutor diagram: a camera view tracking an Arduino UNO with pin labels anchored to it, next to a catalog of the components it will teach"

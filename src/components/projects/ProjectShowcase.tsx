@@ -10,10 +10,34 @@ import EcommerceVisual from "./visuals/EcommerceVisual";
 import FootballVisual from "./visuals/FootballVisual";
 import ExoplanetVisual from "./visuals/ExoplanetVisual";
 import ArduinoVisual from "./visuals/ArduinoVisual";
+import {
+  AptaVisual,
+  BrickVaultVisual,
+  HolofoilVisual,
+  LedgerVisual,
+  LifeOSVisual,
+  SmartStockVisual,
+  TidelineVisual,
+} from "./visuals/StudioVisuals";
+import FeaturedProject from "./FeaturedProject";
 
 /* Direct component references - statically analyzable client references. */
 function pickVisual(id: Project["visual"]): ComponentType {
   switch (id) {
+    case "holofoil":
+      return HolofoilVisual;
+    case "tideline":
+      return TidelineVisual;
+    case "smartstock":
+      return SmartStockVisual;
+    case "brickvault":
+      return BrickVaultVisual;
+    case "lifeos":
+      return LifeOSVisual;
+    case "ledger":
+      return LedgerVisual;
+    case "apta":
+      return AptaVisual;
     case "medical":
       return MedicalBoxVisual;
     case "ecommerce":
@@ -28,7 +52,7 @@ function pickVisual(id: Project["visual"]): ComponentType {
 }
 
 function StatusChip({ status }: { status: ProjectStatus }) {
-  const solid = status === "BUILT";
+  const solid = status === "BUILT" || status === "LIVE";
   const soon = status === "STARTING SOON";
   const pulse = solid ? {} : soon ? { opacity: [0.4, 1, 0.4] } : { opacity: [1, 0.35, 1] };
   return (
@@ -134,6 +158,22 @@ function ProjectPanel({ project, reduced }: ProjectPanelProps) {
           {project.name}
         </h3>
         <p className="mt-3 text-[15px] leading-relaxed text-paper-dim">{project.tagline}</p>
+        {project.links && project.links.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {project.links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full border border-line-2 px-3 py-1 text-xs font-semibold text-paper-dim transition-colors hover:border-amber hover:text-amber"
+              >
+                {l.label === "REPO" ? "Code on GitHub" : l.label}
+                <span aria-hidden>↗</span>
+              </a>
+            ))}
+          </div>
+        )}
 
         {project.milestones && <Progress milestones={project.milestones} />}
 
@@ -261,8 +301,14 @@ export default function ProjectShowcase() {
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
         <SectionHeading label="Projects" title="Things I've built (and am building)." />
 
+        <FeaturedProject />
+
+        <p className="mt-16 text-sm text-paper-faint">
+          <span className="font-semibold text-amber">Everything else on the bench</span> · {total} projects · use ← → to flip through
+        </p>
+
         <div
-          className="pop mt-10 overflow-hidden rounded-3xl bg-panel"
+          className="pop mt-4 overflow-hidden rounded-3xl bg-panel"
           role="group"
           aria-label="Project showcase"
           tabIndex={0}
@@ -325,7 +371,7 @@ export default function ProjectShowcase() {
           </div>
 
           {/* project index: 01 - 02 - 03 - 04 - 05 with sliding active fill */}
-          <div className="flex items-center gap-2 border-t border-line px-5 py-3" role="tablist" aria-label="Project index">
+          <div className="flex items-center gap-2 overflow-x-auto border-t border-line px-5 py-3" role="tablist" aria-label="Project index">
             {PROJECTS.map((p, i) => {
               const active = i === index;
               return (

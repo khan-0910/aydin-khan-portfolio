@@ -37,11 +37,11 @@ const MOMENTUM = "M392 270 L414 256 L436 262 L458 236 L480 248 L502 220 L524 242
 export default function FootballVisual() {
   return (
     <Frame
-      fig="FIG.03"
+      fig="FIG.01"
       title="MATCH ANALYTICS"
-      status="IN PROGRESS"
+      status="BUILT"
       label="Analytics dashboard for the football project: a pitch with a pass network and the ball moving between players, a passes-per-player bar chart and a momentum line chart"
-      caption="Pass networks, per-player stats and momentum: data → process → analyze → visualize."
+      caption="Match predictions, player profiles and transfer values from five live sources, refreshed every 15 minutes."
     >
       <defs>
         <radialGradient id="sch-heat">
