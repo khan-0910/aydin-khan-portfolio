@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import TechnicalLabel from "@/components/ui/TechnicalLabel";
 import { FEATURED } from "@/lib/featured";
 import { AptaVisual } from "./visuals/StudioVisuals";
@@ -9,7 +10,7 @@ import { AptaVisual } from "./visuals/StudioVisuals";
 const FACTS = [
   { n: "2", label: "languages, English and தமிழ்", bg: "#ffd2e3" },
   { n: "3", label: "roles: student, staff, admin", bg: "#dccfff" },
-  { n: "7", label: "tables behind row level security", bg: "#d0f4e6" },
+  { n: "5", label: "steps from application to funding", bg: "#d0f4e6" },
   { n: "8", label: "form sections, matching the paper form", bg: "#ffe2cc" },
 ];
 
@@ -18,6 +19,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 /** APTA gets the biggest card on the page: it's the one project with real users. */
 export default function FeaturedProject() {
   const reduced = useReducedMotion();
+  const [open, setOpen] = useState(false);
   const p = FEATURED;
   const [live, repo] = p.links ?? [];
 
@@ -102,30 +104,57 @@ export default function FeaturedProject() {
         </div>
       </div>
 
-      {/* the full story is always open for the flagship */}
-      <div className="grid gap-3 border-t-2 border-navy bg-panel-2 p-4 sm:grid-cols-2 sm:p-6 xl:grid-cols-4">
-        {p.sections.map((s, i) => (
-          <motion.div
-            key={s.heading}
-            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.08, duration: 0.5, ease: EASE }}
-            className="rounded-2xl border border-line-2 bg-panel p-5"
-          >
-            <TechnicalLabel className="text-amber">{s.heading.charAt(0) + s.heading.slice(1).toLowerCase()}</TechnicalLabel>
-            {s.body.map((line, bi) => (
-              <p key={bi} className="mt-2 text-[13px] leading-relaxed text-paper-dim">
-                {line}
-              </p>
-            ))}
-          </motion.div>
-        ))}
-      </div>
+      {/* the full story, closed until someone asks for it */}
+      <div className="border-t-2 border-navy bg-panel-2 p-4 sm:p-6">
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="featured-story"
+          className="group/case flex w-full items-center justify-between gap-4 rounded-xl border border-line-2 bg-panel px-4 py-3 text-left transition-colors hover:border-amber focus-visible:outline-none focus-visible:border-amber"
+        >
+          <span className="flex items-center gap-3">
+            <span aria-hidden className={`text-[15px] font-bold text-amber transition-transform duration-300 ${open ? "rotate-90" : ""}`}>
+              ›
+            </span>
+            <span className="text-sm font-semibold text-paper">The full story</span>
+            <span className="text-xs text-paper-faint transition-colors group-hover/case:text-paper-dim">{open ? "close" : "open"}</span>
+          </span>
+          <span aria-hidden className="h-px w-6 bg-line-2 transition-all duration-300 group-hover/case:w-10 group-hover/case:bg-amber" />
+        </button>
 
-      <p className="border-t border-line px-6 py-4 text-[13px] text-paper-faint">
-        Built with {p.software.join(" · ")}
-      </p>
+        <AnimatePresence initial={false}>
+          {open && (
+            <motion.div
+              id="featured-story"
+              initial={reduced ? { opacity: 0 } : { opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={reduced ? { opacity: 0 } : { opacity: 0, height: 0 }}
+              transition={{ duration: reduced ? 0.15 : 0.35, ease: "easeOut" }}
+              className="overflow-hidden"
+            >
+              <div className="grid gap-3 pt-3 md:grid-cols-3">
+                {p.sections.map((s, i) => (
+                  <motion.div
+                    key={s.heading}
+                    initial={reduced ? { opacity: 1 } : { opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: reduced ? 0 : 0.08 + i * 0.06, duration: 0.35, ease: EASE }}
+                    className="rounded-2xl border border-line-2 bg-panel p-5"
+                  >
+                    <TechnicalLabel className="text-amber">{s.heading.charAt(0) + s.heading.slice(1).toLowerCase()}</TechnicalLabel>
+                    {s.body.map((line, bi) => (
+                      <p key={bi} className="mt-2 text-[13px] leading-relaxed text-paper-dim">
+                        {line}
+                      </p>
+                    ))}
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </motion.article>
   );
 }
